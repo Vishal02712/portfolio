@@ -160,7 +160,7 @@ const ServicesSection: React.FC = () => {
             <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
               <TrendingUp className="w-6 h-6 text-blue-400" />
             </div>
-            <div className="text-3xl font-bold text-blue-400 mb-2">₹500M+</div>
+            <div className="text-3xl font-bold text-blue-400 mb-2">$6M+</div>
             <div className="text-gray-400 text-sm">Ad Spend Managed</div>
           </div>
           <div className="text-center bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6">
