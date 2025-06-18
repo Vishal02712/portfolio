@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { ChevronDown, TrendingUp, Calendar, Target, Award, Quote, UserCheck } from 'lucide-react';
+import { ChevronDown, TrendingUp, Calendar, Target, Award, Quote, UserCheck, CheckCircle } from 'lucide-react';
 
-// New, more detailed interface to match your content
+// Updated Phase interface to include optional period
 interface Phase {
   title: string;
+  period?: string; // Optional period for each phase
   challenge: string;
   actions: string[];
   result: string;
-  colorClass: string; // For Google-themed colors
+  colorClass: string;
 }
 
 interface CaseStudy {
@@ -39,6 +40,7 @@ const caseStudies: CaseStudy[] = [
     phases: [
       {
         title: 'Phase 1: Digital Activation & Foundation',
+        period: 'Aug 2022 – Jan 2023',
         challenge: 'Offline-first brand with minimal online visibility.',
         actions: [
           'Reignited all social platforms with relatable, travel-focused storytelling.',
@@ -51,6 +53,7 @@ const caseStudies: CaseStudy[] = [
       },
       {
         title: 'Phase 2: Performance Marketing Scale-Up',
+        period: 'Feb 2023 – May 2023',
         challenge: 'Rapid growth demanded performance-focused budget allocation.',
         actions: [
           'Built full-funnel Google Ads campaigns across Search, Performance Max, and YouTube.',
@@ -63,6 +66,7 @@ const caseStudies: CaseStudy[] = [
       },
       {
         title: 'Phase 3: Influencer-Led Brand Lift & Funnel Optimization',
+        period: 'June 2023 – May 2024',
         challenge: 'Increased competition, content fatigue, and rising CAC.',
         actions: [
           'Partnered with 10+ influencers (10K–1M+ followers) across travel and tech niches.',
@@ -75,6 +79,7 @@ const caseStudies: CaseStudy[] = [
       },
       {
         title: 'Phase 4: eSIM Launch & Category Growth',
+        period: 'June 2024 – Present',
         challenge: 'Shift in global travel telecom — physical SIM sales declining.',
         actions: [
           'Launched Matrix’s Indian-origin eSIM products covering 100+ destinations.',
@@ -163,52 +168,26 @@ const caseStudies: CaseStudy[] = [
   }
 ];
 
-// Helper to get color classes based on the phase color name
 const getColorClasses = (color: string) => {
   switch (color) {
-    case 'green':
-      return {
-        border: 'border-green-500',
-        text: 'text-green-400',
-        bg: 'bg-green-500',
-      };
-    case 'blue':
-      return {
-        border: 'border-blue-500',
-        text: 'text-blue-400',
-        bg: 'bg-blue-500',
-      };
-    case 'yellow':
-      return {
-        border: 'border-yellow-500',
-        text: 'text-yellow-400',
-        bg: 'bg-yellow-500',
-      };
-    case 'red':
-      return {
-        border: 'border-red-500',
-        text: 'text-red-400',
-        bg: 'bg-red-500',
-      };
-    default:
-      return {
-        border: 'border-gray-500',
-        text: 'text-gray-400',
-        bg: 'bg-gray-500',
-      };
+    case 'green': return { border: 'border-green-500', text: 'text-green-400', bg: 'bg-green-500' };
+    case 'blue': return { border: 'border-blue-500', text: 'text-blue-400', bg: 'bg-blue-500' };
+    case 'yellow': return { border: 'border-yellow-500', text: 'text-yellow-400', bg: 'bg-yellow-500' };
+    case 'red': return { border: 'border-red-500', text: 'text-red-400', bg: 'bg-red-500' };
+    default: return { border: 'border-gray-500', text: 'text-gray-400', bg: 'bg-gray-500' };
   }
 };
 
 
 const CaseStudiesSection: React.FC = () => {
-  const [expandedCase, setExpandedCase] = useState<string | null>('matrix-esim'); // Default to open the first one
+  const [expandedCase, setExpandedCase] = useState<string | null>('matrix-esim');
 
   const toggleExpansion = (caseId: string) => {
     setExpandedCase(expandedCase === caseId ? null : caseId);
   };
 
   return (
-    <section className="py-20 bg-black text-white">
+    <section id="case-studies" className="py-20 bg-black text-white">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold mb-4">
@@ -225,7 +204,6 @@ const CaseStudiesSection: React.FC = () => {
               key={study.id}
               className="bg-gray-900/50 border border-gray-700 rounded-xl overflow-hidden transition-all duration-300 hover:border-blue-500/50"
             >
-              {/* Collapsible Header */}
               <div
                 className="p-6 cursor-pointer"
                 onClick={() => toggleExpansion(study.id)}
@@ -252,12 +230,10 @@ const CaseStudiesSection: React.FC = () => {
                 <h4 className="text-lg md:text-xl text-gray-200 mt-4 font-semibold">{study.title}</h4>
               </div>
 
-              {/* Expanded Content */}
               {expandedCase === study.id && (
                 <div className="px-6 pb-8 pt-4 border-t border-gray-800 animate-fadeIn">
                   <div className="space-y-8">
                     
-                    {/* Overview & Objective */}
                     <div className="grid md:grid-cols-2 gap-8">
                         <div>
                             <h5 className="font-semibold text-gray-400 uppercase tracking-wider text-sm mb-3">Strategic Overview</h5>
@@ -269,17 +245,24 @@ const CaseStudiesSection: React.FC = () => {
                         </div>
                     </div>
                   
-                    {/* Strategic Phases Timeline */}
                     <div>
                       <h5 className="font-semibold text-gray-400 uppercase tracking-wider text-sm mb-4">Strategic Phases</h5>
-                      <div className="space-y-6">
+                      <div className="relative pl-6 space-y-10 border-l-2 border-gray-700">
                         {study.phases.map((phase, index) => {
                           const colors = getColorClasses(phase.colorClass);
                           return (
-                            <div key={index} className={`pl-6 border-l-4 ${colors.border}`}>
-                              <h6 className={`font-bold text-lg ${colors.text} mb-1`}>{phase.title}</h6>
+                            <div key={index} className="relative">
+                              <div className={`absolute -left-[31px] top-1 w-4 h-4 rounded-full ${colors.bg}`}></div>
+                              
+                              <div className="flex justify-between items-baseline mb-2">
+                                <h6 className={`font-bold text-lg ${colors.text}`}>{phase.title}</h6>
+                                {phase.period && (
+                                    <span className="text-xs text-gray-500 font-mono">{phase.period}</span>
+                                )}
+                              </div>
+
                               <p className="text-sm text-gray-400 mb-3 italic">Challenge: {phase.challenge}</p>
-                              <ul className="space-y-2 mb-3">
+                              <ul className="space-y-2 mb-4">
                                 {phase.actions.map((action, i) => (
                                   <li key={i} className="flex items-start space-x-3">
                                     <div className={`w-1.5 h-1.5 ${colors.bg} rounded-full mt-[7px] flex-shrink-0`}></div>
@@ -287,14 +270,23 @@ const CaseStudiesSection: React.FC = () => {
                                   </li>
                                 ))}
                               </ul>
-                              <p className="font-semibold text-gray-200">Result: <span className="font-normal text-gray-300">{phase.result}</span></p>
+                              
+                              {/* --- NEW HIGHLIGHTED RESULT BLOCK --- */}
+                              <div className={`p-4 rounded-lg bg-gray-800/60 border ${colors.border}`}>
+                                <div className="flex items-start space-x-3">
+                                    <CheckCircle className={`w-5 h-5 flex-shrink-0 mt-0.5 ${colors.text}`} /> 
+                                    <div>
+                                        <h6 className={`text-sm font-semibold uppercase tracking-wider ${colors.text}`}>Result</h6>
+                                        <p className="text-gray-300 mt-1">{phase.result}</p>
+                                    </div>
+                                </div>
+                              </div>
                             </div>
                           )
                         })}
                       </div>
                     </div>
 
-                    {/* Overall Impact / Outcome */}
                     <div>
                       <h5 className="font-semibold text-gray-400 uppercase tracking-wider text-sm mb-4">{study.id === 'matrix-esim' ? 'Overall Impact' : 'Outcome'}</h5>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
@@ -307,7 +299,6 @@ const CaseStudiesSection: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Bonus Insight (Conditional) */}
                     {study.bonusInsight && (
                         <div>
                             <h5 className="font-semibold text-gray-400 uppercase tracking-wider text-sm mb-3">{study.bonusInsight.author}</h5>
@@ -317,7 +308,6 @@ const CaseStudiesSection: React.FC = () => {
                         </div>
                     )}
 
-                    {/* Personal Role (Conditional) */}
                     {study.personalRole && (
                         <div>
                              <h5 className="font-semibold text-gray-400 uppercase tracking-wider text-sm mb-3">Personal Role</h5>
