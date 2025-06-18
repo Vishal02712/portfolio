@@ -1,244 +1,156 @@
-import React, { useState } from 'react';
-import { X, ZoomIn, ExternalLink, Calendar, Tag } from 'lucide-react';
+import React, { useState, useCallback } from 'react';
+import { TrendingUp, ArrowRight } from 'lucide-react';
 
-interface PortfolioItem {
+// A simpler, more focused interface for the screenshots
+interface ScreenshotItem {
   id: string;
+  image: string; // The direct path to your screenshot
   title: string;
-  category: string;
   description: string;
-  image: string;
-  date: string;
-  tags: string[];
+  result: {
+    value: string;
+    label: string;
+  };
 }
 
-const portfolioItems: PortfolioItem[] = [
+// Your 5 campaign screenshots will go here
+const screenshots: ScreenshotItem[] = [
   {
-    id: '1',
-    title: 'Google Ads Dashboard - Matrix eSIM Campaign',
-    category: 'Google Ads',
-    description: 'Complete Google Ads campaign dashboard showing performance metrics, conversion tracking, and automated bidding strategies for international eSIM services.',
-    image: 'https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=800',
-    date: 'Dec 2024',
-    tags: ['Google Ads', 'Performance Marketing', 'eSIM']
+    id: 'matrix-rev-growth',
+    image: 'https://placehold.co/1200x750/0a0a0a/FFF/png?text=Revenue+Growth+Dashboard',
+    title: 'Daily Revenue Scaling',
+    description: 'Analytics dashboard tracking the explosive daily revenue growth from ₹2K to over ₹5 Lakhs, showcasing the direct impact of optimized ad spend.',
+    result: {
+      value: '+24,900%',
+      label: 'Revenue Growth',
+    },
   },
   {
-    id: '2',
-    title: 'Analytics Dashboard - Revenue Growth Tracking',
-    category: 'Analytics',
-    description: 'Custom Google Analytics dashboard tracking revenue growth from ₹2K to ₹5L daily, with detailed attribution modeling and customer journey analysis.',
-    image: 'https://images.pexels.com/photos/590041/pexels-photo-590041.jpg?auto=compress&cs=tinysrgb&w=800',
-    date: 'Nov 2024',
-    tags: ['Google Analytics', 'Revenue Tracking', 'Data Analysis']
+    id: 'matrix-roas',
+    image: 'https://placehold.co/1200x750/1a1a1a/FFF/png?text=Google+Ads+ROAS',
+    title: 'Sustained 4.2x ROAS',
+    description: 'Google Ads campaign view demonstrating a consistent 4.2x Return On Ad Spend across multiple high-budget campaigns, ensuring profitable scaling.',
+    result: {
+      value: '4.2x',
+      label: 'Return On Ad Spend',
+    },
   },
   {
-    id: '3',
-    title: 'Search Campaign Performance Report',
-    category: 'Campaign Reports',
-    description: 'Detailed performance report showing search campaign optimization results with keyword analysis, quality score improvements, and ROAS achievements.',
-    image: 'https://images.pexels.com/photos/669619/pexels-photo-669619.jpg?auto=compress&cs=tinysrgb&w=800',
-    date: 'Oct 2024',
-    tags: ['Search Ads', 'Keyword Strategy', 'Performance Report']
+    id: 'shiv-naresh-cpa',
+    image: 'https://placehold.co/1200x750/0f0f0f/FFF/png?text=Cost+Per+Acquisition',
+    title: 'Cost Per Acquisition Reduction',
+    description: 'Performance report highlighting a 60% reduction in Customer Acquisition Cost for Shiv Naresh, achieved by refining audience targeting and creative strategy.',
+    result: {
+      value: '-60%',
+      label: 'Acquisition Cost',
+    },
   },
   {
-    id: '4',
-    title: 'Display Campaign Creative Performance',
-    category: 'Display Ads',
-    description: 'Creative performance analysis for display campaigns showing engagement metrics, audience insights, and creative optimization strategies.',
-    image: 'https://images.pexels.com/photos/193349/pexels-photo-193349.jpeg?auto=compress&cs=tinysrgb&w=800',
-    date: 'Sep 2024',
-    tags: ['Display Ads', 'Creative Strategy', 'Audience Targeting']
+    id: 'pmax-funnel',
+    image: 'https://placehold.co/1200x750/1f1f1f/FFF/png?text=Performance+Max+Funnel',
+    title: 'Performance Max Optimization',
+    description: 'A look inside a Performance Max campaign structure, focusing on asset group optimization and signal targeting that led to a 35% increase in conversion rate.',
+    result: {
+      value: '+35%',
+      label: 'Conversion Rate',
+    },
   },
   {
-    id: '5',
-    title: 'Conversion Tracking Setup',
-    category: 'Technical Setup',
-    description: 'Screenshot of conversion tracking implementation showing Google Tag Manager setup, enhanced ecommerce tracking, and attribution modeling configuration.',
-    image: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800',
-    date: 'Aug 2024',
-    tags: ['GTM', 'Conversion Tracking', 'Technical Implementation']
+    id: 'esim-targeting',
+    image: 'https://placehold.co/1200x750/111111/FFF/png?text=eSIM-Specific+Targeting',
+    title: 'eSIM Niche Targeting',
+    description: 'GA4 audience builder screenshot showing the precise segmentation used to target eSIM-enabled device users, resulting in 78% of sales coming from this new product line.',
+    result: {
+      value: '78%',
+      label: 'Sales from eSIM',
+    },
   },
-  {
-    id: '6',
-    title: 'YouTube Ads Performance Dashboard',
-    category: 'Video Ads',
-    description: 'YouTube advertising campaign dashboard showing video performance metrics, audience engagement, and cost-per-view optimization results.',
-    image: 'https://images.pexels.com/photos/1251861/pexels-photo-1251861.jpeg?auto=compress&cs=tinysrgb&w=800',
-    date: 'Jul 2024',
-    tags: ['YouTube Ads', 'Video Marketing', 'Performance Metrics']
-  }
 ];
 
-const categories = ['All', 'Google Ads', 'Analytics', 'Campaign Reports', 'Display Ads', 'Technical Setup', 'Video Ads'];
-
 const PortfolioGallery: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isFading, setIsFading] = useState(false);
 
-  const filteredItems = selectedCategory === 'All' 
-    ? portfolioItems 
-    : portfolioItems.filter(item => item.category === selectedCategory);
-
-  const openLightbox = (item: PortfolioItem) => {
-    setSelectedItem(item);
-  };
-
-  const closeLightbox = () => {
-    setSelectedItem(null);
-  };
+  const handleSelect = useCallback((index: number) => {
+    if (index === activeIndex) return;
+    setIsFading(true);
+    setTimeout(() => {
+      setActiveIndex(index);
+      setIsFading(false);
+    }, 300); // Duration matches the fade-out transition
+  }, [activeIndex]);
+  
+  const activeScreenshot = screenshots[activeIndex];
 
   return (
-    <section className="py-20 bg-gray-900/50">
-      <div className="container mx-auto px-6">
+    <section className="py-24 bg-black relative overflow-hidden">
+      {/* Background radial gradient for a futuristic feel */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] opacity-40"></div>
+      
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
-            Campaign <span className="text-blue-400">Screenshots</span>
+            Proof in the <span className="text-blue-400">Pixels</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Real campaign dashboards and performance screenshots from live Google Ads accounts and analytics platforms.
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            A transparent look into real campaign performance, dashboards, and the results they generated.
           </p>
         </div>
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                selectedCategory === category
-                  ? 'bg-blue-500 text-white shadow-lg transform scale-105'
-                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white border border-gray-600'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {filteredItems.map((item) => (
-            <div
-              key={item.id}
-              className="group bg-gray-800/40 backdrop-blur-sm border border-gray-700 rounded-xl overflow-hidden hover:border-gray-600 transition-all duration-300 transform hover:scale-105"
-            >
-              {/* Image */}
-              <div className="relative overflow-hidden">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          {/* Main Screenshot Display */}
+          <div className="lg:col-span-9">
+            <div className="relative aspect-video w-full bg-gray-900/50 rounded-xl border border-white/10 overflow-hidden shadow-2xl shadow-black/50">
                 <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
+                  key={activeScreenshot.id} // Key change triggers re-render
+                  src={activeScreenshot.image}
+                  alt={activeScreenshot.title}
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ease-in-out ${
+                    isFading ? 'opacity-0' : 'opacity-100'
+                  }`}
                 />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <button
-                    onClick={() => openLightbox(item)}
-                    className="bg-white/20 backdrop-blur-sm p-3 rounded-full text-white hover:bg-white/30 transition-all duration-300"
-                  >
-                    <ZoomIn className="w-6 h-6" />
-                  </button>
-                </div>
-                
-                {/* Category Badge */}
-                <div className="absolute top-4 left-4">
-                  <span className="text-xs font-medium px-3 py-1 bg-blue-500/90 text-white rounded-full backdrop-blur-sm">
-                    {item.category}
-                  </span>
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-6 space-y-4">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2 text-sm text-gray-400">
-                      <Calendar className="w-4 h-4" />
-                      <span>{item.date}</span>
-                    </div>
-                  </div>
-                  <h3 className="text-lg font-semibold text-white group-hover:text-blue-400 transition-colors line-clamp-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-gray-400 line-clamp-3">
-                    {item.description}
-                  </p>
-                </div>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2">
-                  {item.tags.slice(0, 3).map((tag, index) => (
-                    <span
-                      key={index}
-                      className="text-xs px-2 py-1 bg-gray-700/50 text-gray-300 rounded-md border border-gray-600/50"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Lightbox Modal */}
-        {selectedItem && (
-          <div className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-gray-800 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-              {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-gray-700">
-                <div className="flex items-center space-x-4">
-                  <h3 className="text-2xl font-bold text-white">{selectedItem.title}</h3>
-                  <span className="text-sm px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full">
-                    {selectedItem.category}
-                  </span>
-                </div>
-                <button
-                  onClick={closeLightbox}
-                  className="p-2 hover:bg-gray-700 rounded-full transition-colors"
-                >
-                  <X className="w-6 h-6 text-gray-400" />
-                </button>
-              </div>
-
-              {/* Content */}
-              <div className="p-6 space-y-6">
-                <img
-                  src={selectedItem.image}
-                  alt={selectedItem.title}
-                  className="w-full h-auto max-h-96 object-contain rounded-lg bg-gray-900"
-                />
-
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-4 text-sm text-gray-400">
-                    <div className="flex items-center space-x-2">
-                      <Calendar className="w-4 h-4" />
-                      <span>{selectedItem.date}</span>
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-300 leading-relaxed">{selectedItem.description}</p>
-
-                  {/* All Tags */}
-                  <div className="space-y-2">
-                    <h4 className="text-white font-semibold flex items-center space-x-2">
-                      <Tag className="w-4 h-4" />
-                      <span>Tags:</span>
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedItem.tags.map((tag, index) => (
-                        <span
-                          key={index}
-                          className="text-sm px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
-        )}
+
+          {/* Side Panel: Info & Thumbnails */}
+          <div className="lg:col-span-3 flex flex-col justify-between">
+            <div className="space-y-6">
+              {/* Highlighted Result */}
+              <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 transition-opacity duration-300 ease-in-out">
+                <p className="text-sm text-green-400 mb-1">{activeScreenshot.result.label}</p>
+                <p className="text-4xl font-bold text-white flex items-center gap-2">
+                  <TrendingUp className="w-8 h-8 text-green-400" />
+                  {activeScreenshot.result.value}
+                </p>
+              </div>
+
+              {/* Text Info */}
+              <div className="space-y-2 transition-opacity duration-300 ease-in-out">
+                <h3 className="text-2xl font-bold text-white">{activeScreenshot.title}</h3>
+                <p className="text-gray-400 leading-relaxed">{activeScreenshot.description}</p>
+              </div>
+            </div>
+
+            {/* Thumbnail "Filmstrip" */}
+            <div className="mt-8 lg:mt-0 flex lg:flex-col gap-3">
+              {screenshots.map((item, index) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleSelect(index)}
+                  className={`relative aspect-video lg:aspect-auto lg:h-20 w-full rounded-md overflow-hidden transition-all duration-300 border-2 ${
+                    activeIndex === index 
+                      ? 'border-blue-500 scale-105' 
+                      : 'border-transparent opacity-50 hover:opacity-100'
+                  }`}
+                >
+                  <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors"></div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
