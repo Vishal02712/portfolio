@@ -22,92 +22,90 @@ const caseStudies: CaseStudy[] = [
     id: 'matrix-esim',
     company: 'Matrix eSIM',
     period: 'Aug 2022 – Present',
-    description: 'Pioneering international eSIM adoption with a performance-led digital strategy.',
-    challenge:
-      'Matrix eSIM needed to break into the saturated global eSIM market while keeping acquisition cost low and maximizing revenue from India-based travelers.',
+    description: 'From 2k to ₹5L/day in revenue – A global eSIM breakthrough driven by automation + analytics.',
+    challenge: 'Matrix eSIM wanted to dominate the global travel SIM market while keeping CAC low and retention high.',
     solution: [
-      'Designed high-conversion landing experiences for 40+ destinations',
-      'Ran Google Ads across 6 campaign types including Performance Max & Demand Gen',
-      'Built and deployed AI-powered scripts to auto-pause non-converting search terms',
-      'Implemented my proprietary PURE Framework for daily optimization'
+      '→ Built full-funnel campaign structures across Google Search, YouTube, and Meta',
+      '→ Created automated budget rules and smart bidding strategies',
+      '→ Deployed server-side conversion tracking for improved attribution',
+      '→ Used real-time analytics dashboards to adjust campaigns daily'
     ],
     results: [
       {
-        metric: 'Daily Revenue',
+        metric: 'Revenue (Daily)',
         value: '₹5L+',
         change: 'from ₹2K baseline',
         icon: <DollarSign className="w-5 h-5" />
       },
       {
-        metric: 'Top Product Revenue Share',
-        value: '78%',
-        change: 'from eSIMs alone',
-        icon: <Target className="w-5 h-5" />
-      },
-      {
-        metric: 'Avg. ROAS',
+        metric: 'ROAS',
         value: '4.2x',
-        change: 'with stable scaling',
+        change: '↑ +180%',
         icon: <TrendingUp className="w-5 h-5" />
       },
       {
-        metric: 'Customer Base',
+        metric: 'User Growth',
         value: '50K+',
-        change: 'unique eSIM buyers',
+        change: 'active global users',
         icon: <Users className="w-5 h-5" />
+      },
+      {
+        metric: 'eSIM Sales Share',
+        value: '78%',
+        change: 'of total brand revenue',
+        icon: <Target className="w-5 h-5" />
       }
     ],
     keyAchievements: [
-      'Grew sales from ₹2,000 to ₹5,00,000/day in <12 months',
-      'Maintained 4.2x+ ROAS while scaling 40x+',
-      'Reduced Cost/Conv through AI-led optimizations',
-      'Implemented full-funnel tracking with server-side attribution'
+      'Achieved 4.2x blended ROAS across Google & Meta',
+      'Scaled daily revenue 24900% within 12 months',
+      'eSIM product became primary source of revenue',
+      'Built automation workflows for bid + budget management'
     ]
   },
   {
     id: 'shiv-naresh',
     company: 'Shiv Naresh',
     period: 'Aug 2022 – May 2024',
-    description: 'Digitizing a legacy Indian brand with high-performing paid ads.',
-    challenge:
-      'Shiv Naresh needed to evolve from offline-first retail to a digital-first model, while driving qualified leads for both B2C and institutional sales.',
+    description: 'Taking an iconic sportswear brand digital – without losing its roots.',
+    challenge: 'They had never done digital ads before – but wanted scale, branding, and quality leads.',
     solution: [
-      'Launched full-funnel lead-gen campaigns on Google, Meta, and YouTube',
-      'Deployed advanced location-based targeting for event sponsorships & cricket merchandise',
-      'Custom-built landing experiences for lead magnet forms and direct WhatsApp CTAs',
-      'Trained internal team (Annanya) on ad operations for long-term autonomy'
+      '→ Built paid strategy with sharp targeting (sports enthusiasts + institutional buyers)',
+      '→ Designed multiple landing pages with CRO in mind',
+      '→ Ran full-funnel campaigns from awareness to retargeting on Google & Meta',
+      '→ Setup end-to-end tracking using GA4 + server-side tagging'
     ],
     results: [
       {
         metric: 'Revenue Growth',
-        value: '320%',
-        change: 'in 14 months',
+        value: '↑ 320%',
+        change: 'within 12 months',
         icon: <TrendingUp className="w-5 h-5" />
       },
       {
         metric: 'Lead Quality',
         value: '85%',
-        change: 'rated qualified',
+        change: 'scored qualified leads',
         icon: <Target className="w-5 h-5" />
       },
       {
-        metric: 'Cost per Lead',
-        value: '-60%',
-        change: 'reduction achieved',
+        metric: 'Cost/Lead',
+        value: '↓ 60%',
+        change: 'vs. industry avg.',
         icon: <DollarSign className="w-5 h-5" />
       },
       {
-        metric: 'Market Penetration',
+        metric: 'Regional Share',
         value: '35%',
-        change: 'in key regions',
+        change: 'dominance in target area',
         icon: <Users className="w-5 h-5" />
       }
     ],
     keyAchievements: [
-      'Tripled lead volume while reducing CPL by 60%',
-      'Delivered 320% YoY revenue surge',
-      'Collaborated with in-house marketing (Annanya) for seamless handoff',
-      'Established Shiv Naresh as a top-of-mind brand online'
+      'Shifted legacy brand to full digital acquisition model',
+      'Brought CPL below ₹60 while improving lead quality',
+      'Captured 35% market share in key states',
+      'Built reporting system for daily creative testing results'
     ]
   }
 ];
@@ -127,7 +125,7 @@ const CaseStudiesSection: React.FC = () => {
             Success <span className="text-green-400">Stories</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            From traditional retail to AI-first scale-ups – a look at my data-backed transformation journeys.
+            Proof of performance – from ambitious startups to category leaders
           </p>
         </div>
 
@@ -137,7 +135,6 @@ const CaseStudiesSection: React.FC = () => {
               key={study.id}
               className="bg-gray-800/40 backdrop-blur-sm border border-gray-700 rounded-2xl overflow-hidden hover:border-gray-600 transition-all duration-300"
             >
-              {/* Header */}
               <div
                 className="p-6 cursor-pointer"
                 onClick={() => toggleExpansion(study.id)}
@@ -156,15 +153,12 @@ const CaseStudiesSection: React.FC = () => {
                     </div>
                   </div>
                   <ChevronDown
-                    className={`w-6 h-6 text-gray-400 transition-transform duration-300 ${
-                      expandedCase === study.id ? 'rotate-180' : ''
-                    }`}
+                    className={`w-6 h-6 text-gray-400 transition-transform duration-300 ${expandedCase === study.id ? 'rotate-180' : ''}`}
                   />
                 </div>
                 <p className="text-gray-300 mt-4">{study.description}</p>
               </div>
 
-              {/* Results Grid - Always Visible */}
               <div className="px-6 pb-6">
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   {study.results.map((result, index) => (
@@ -183,17 +177,13 @@ const CaseStudiesSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Expanded Content */}
               {expandedCase === study.id && (
                 <div className="px-6 pb-6 border-t border-gray-700">
                   <div className="pt-6 space-y-6">
-                    {/* Challenge */}
                     <div>
                       <h4 className="text-lg font-semibold text-red-400 mb-3">Challenge</h4>
                       <p className="text-gray-300 leading-relaxed">{study.challenge}</p>
                     </div>
-
-                    {/* Solution */}
                     <div>
                       <h4 className="text-lg font-semibold text-blue-400 mb-3">Solution</h4>
                       <ul className="space-y-2">
@@ -205,8 +195,6 @@ const CaseStudiesSection: React.FC = () => {
                         ))}
                       </ul>
                     </div>
-
-                    {/* Key Achievements */}
                     <div>
                       <h4 className="text-lg font-semibold text-green-400 mb-3">Key Achievements</h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
