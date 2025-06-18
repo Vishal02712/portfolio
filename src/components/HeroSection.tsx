@@ -93,6 +93,12 @@ const HeroSection: React.FC = () => {
               <span>Download Resume</span>
             </a>
           </div>
+          
+          <div className="inline-flex items-center space-x-3 text-sm text-gray-400 bg-gray-900/40 backdrop-blur-sm px-4 py-2 rounded-lg border border-gray-700/30">
+            <Code className="w-4 h-4" />
+            <span>This site is powered by AI. Just like my campaigns.</span>
+          </div>
+        </div>
 
         {/* Right Content - Graph and Dashboard */}
         <div className="lg:w-1/2 relative">
