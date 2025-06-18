@@ -1,216 +1,209 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Search, Target, BarChart3, MousePointer, Palette, FlaskConical, TrendingUp, Users, Zap, Brain } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Target, BarChart3, Search, MousePointer, Palette, FlaskConical, Zap, TrendingUp, Users, Brain } from 'lucide-react';
 
+// Expanded interface for more engaging content on hover
 interface Service {
   name: string;
-  percentage: number;
   icon: React.ReactNode;
-  color: string;
+  description: string;
+  color: 'blue' | 'green' | 'yellow' | 'red' | 'purple' | 'teal' | 'pink';
 }
 
 const services: Service[] = [
   {
     name: 'Google Ads Strategy & Execution',
-    percentage: 94,
-    icon: <Target className="w-6 h-6" />,
-    color: 'from-blue-500 to-blue-600'
+    icon: <Target className="w-8 h-8" />,
+    description: 'Building and managing high-ROAS campaigns across Search, P-Max, and Display networks.',
+    color: 'blue',
   },
   {
     name: 'Full-Funnel Media Planning',
-    percentage: 92,
-    icon: <BarChart3 className="w-6 h-6" />,
-    color: 'from-green-500 to-green-600'
+    icon: <BarChart3 className="w-8 h-8" />,
+    description: 'Designing integrated media plans that guide users from initial awareness to final conversion.',
+    color: 'green',
   },
   {
     name: 'Data Analytics & Insight Mining',
-    percentage: 90,
-    icon: <Search className="w-6 h-6" />,
-    color: 'from-yellow-500 to-yellow-600'
+    icon: <Search className="w-8 h-8" />,
+    description: 'Using GA4 and analytics platforms to uncover actionable insights that drive strategy.',
+    color: 'yellow',
   },
   {
-    name: 'Landing Page Optimization',
-    percentage: 88,
-    icon: <MousePointer className="w-6 h-6" />,
-    color: 'from-red-500 to-red-600'
+    name: 'Landing Page & CRO',
+    icon: <MousePointer className="w-8 h-8" />,
+    description: 'Optimizing landing pages and user funnels to maximize conversion rates.',
+    color: 'red',
   },
   {
     name: 'Paid Creative Direction',
-    percentage: 90,
-    icon: <Palette className="w-6 h-6" />,
-    color: 'from-purple-500 to-purple-600'
+    icon: <Palette className="w-8 h-8" />,
+    description: 'Guiding creative strategy to produce ad assets that resonate and convert.',
+    color: 'purple',
   },
   {
-    name: 'A/B Testing & Scaling Strategy',
-    percentage: 87,
-    icon: <FlaskConical className="w-6 h-6" />,
-    color: 'from-teal-500 to-teal-600'
+    name: 'A/B Testing & Scaling',
+    icon: <FlaskConical className="w-8 h-8" />,
+    description: 'Implementing rigorous testing frameworks to identify winners and scale them profitably.',
+    color: 'teal',
   },
   {
-    name: 'Snapchat + Meta Ads Performance',
-    percentage: 85,
-    icon: <Zap className="w-6 h-6" />,
-    color: 'from-pink-500 to-yellow-500'
-  }
+    name: 'Social & Programmatic Ads',
+    icon: <Zap className="w-8 h-8" />,
+    description: 'Executing performance campaigns on platforms like Meta, Snapchat, and programmatic channels.',
+    color: 'pink',
+  },
 ];
 
+// Custom hook for counting up animation
+const useCountUp = (end: number, duration: number, isVisible: boolean) => {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    if (!isVisible) return;
+    let start = 0;
+    const endValue = end;
+    const frameDuration = 1000 / 60;
+    const totalFrames = Math.round(duration / frameDuration);
+    let frame = 0;
+
+    const counter = setInterval(() => {
+      frame++;
+      const progress = frame / totalFrames;
+      // Ease-out cubic function
+      const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(endValue * easeOutProgress));
+      
+      if (frame === totalFrames) {
+        clearInterval(counter);
+        setCount(endValue); // Ensure it ends on the exact number
+      }
+    }, frameDuration);
+
+    return () => clearInterval(counter);
+  }, [end, duration, isVisible]);
+
+  return count;
+};
+
+
 const ServicesSection: React.FC = () => {
-  const [animatedPercentages, setAnimatedPercentages] = useState<number[]>(new Array(services.length).fill(0));
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !isVisible) {
+        if (entry.isIntersecting) {
           setIsVisible(true);
-          animatePercentages();
+          observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
-  }, [isVisible]);
+  }, []);
 
-  const animatePercentages = () => {
-    const duration = 2000;
-    const steps = 60;
+  const adSpend = useCountUp(50, 2000, isVisible);
+  const industries = useCountUp(15, 2000, isVisible);
+  const campaigns = useCountUp(1000, 2000, isVisible);
+  const retention = useCountUp(98, 2000, isVisible);
 
-    let step = 0;
-    const interval = setInterval(() => {
-      step++;
-      const progress = step / steps;
-      const easeOut = 1 - Math.pow(1 - progress, 3);
+  const getColorClasses = (color: Service['color']) => {
+      const colors = {
+        blue: 'text-blue-400 border-blue-500/50 shadow-blue-500/20 bg-blue-500/10',
+        green: 'text-green-400 border-green-500/50 shadow-green-500/20 bg-green-500/10',
+        yellow: 'text-yellow-400 border-yellow-500/50 shadow-yellow-500/20 bg-yellow-500/10',
+        red: 'text-red-400 border-red-500/50 shadow-red-500/20 bg-red-500/10',
+        purple: 'text-purple-400 border-purple-500/50 shadow-purple-500/20 bg-purple-500/10',
+        teal: 'text-teal-400 border-teal-500/50 shadow-teal-500/20 bg-teal-500/10',
+        pink: 'text-pink-400 border-pink-500/50 shadow-pink-500/20 bg-pink-500/10'
+      };
+      return colors[color];
+  }
 
-      setAnimatedPercentages(services.map(service => 
-        Math.floor(service.percentage * easeOut)
-      ));
-
-      if (step >= steps) {
-        clearInterval(interval);
-      }
-    }, duration / steps);
+  const radius = '16rem'; // You can adjust this for responsiveness
+  const getPosition = (index: number) => {
+      const angle = (index / services.length) * 2 * Math.PI - Math.PI / 2;
+      const x = `calc(50% + ${Math.cos(angle)} * ${radius} - 50px)`;
+      const y = `calc(50% + ${Math.sin(angle)} * ${radius} - 50px)`;
+      return { top: y, left: x };
   };
 
   return (
-    <section ref={sectionRef} className="py-20 bg-gray-900/50 relative overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute top-20 right-20 w-32 h-32 bg-blue-500/5 rounded-full blur-xl"></div>
-        <div className="absolute bottom-20 left-20 w-40 h-40 bg-green-500/5 rounded-full blur-xl"></div>
-      </div>
+    <section ref={sectionRef} className="py-24 bg-black relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(29,78,216,0.15),transparent_50%)]"></div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
-            Core <span className="text-blue-400">Expertise</span>
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">Core Expertise</h2>
+          <p className="text-lg text-gray-400 max-w-3xl mx-auto">
             I help brands scale profitably through data-backed media strategies, full-funnel execution, and creative testing – all measured by ROAS and customer LTV.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        {/* Interactive Radial Skill Hub */}
+        <div className={`relative h-[40rem] w-full transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center">
+            <div className="w-48 h-48 bg-gray-900/50 border border-white/10 rounded-full flex flex-col justify-center items-center p-4 backdrop-blur-sm shadow-2xl">
+              <Brain className={`w-12 h-12 transition-colors duration-300 ${hoveredIndex !== null ? getColorClasses(services[hoveredIndex].color).split(' ')[0] : 'text-blue-400'}`} />
+              <div className="mt-2 text-white font-bold text-lg leading-tight transition-opacity duration-300">
+                {hoveredIndex !== null ? services[hoveredIndex].name : 'Core Skills'}
+              </div>
+            </div>
+            <p className={`mt-4 h-12 text-gray-400 w-64 transition-opacity duration-300`}>
+              {hoveredIndex !== null ? services[hoveredIndex].description : 'Hover over a skill to see details.'}
+            </p>
+          </div>
+          
           {services.map((service, index) => (
             <div
-              key={index}
-              className="group bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 hover:border-gray-600 transition-all duration-300 transform hover:scale-105"
+              key={service.name}
+              className={`absolute w-[100px] h-[100px] rounded-full flex items-center justify-center border transition-all duration-500 ease-out shadow-lg cursor-pointer ${getColorClasses(service.color)}`}
+              style={{ 
+                ...getPosition(index),
+                transform: `scale(${hoveredIndex === index ? 1.15 : (hoveredIndex !== null ? 0.9 : 1)})`,
+                opacity: hoveredIndex === null || hoveredIndex === index ? 1 : 0.6,
+                transitionDelay: `${index * 100}ms`
+              }}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
             >
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg bg-gradient-to-r ${service.color} text-white`}>
-                    {service.icon}
-                  </div>
-                  <h3 className="text-white font-semibold text-lg">{service.name}</h3>
-                </div>
-                <div className="text-2xl font-bold text-white">
-                  {animatedPercentages[index]}%
-                </div>
-              </div>
-
-              <div className="relative">
-                <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
-                  <div
-                    className={`h-full bg-gradient-to-r ${service.color} transition-all duration-2000 ease-out`}
-                    style={{ width: `${animatedPercentages[index]}%` }}
-                  ></div>
-                </div>
-
-                <div
-                  className={`absolute top-0 h-3 w-6 bg-gradient-to-r ${service.color} opacity-70 blur-sm transition-all duration-2000 ease-out animate-pulse`}
-                  style={{ 
-                    left: `${Math.max(0, animatedPercentages[index] - 5)}%`,
-                    opacity: isVisible ? 0.7 : 0
-                  }}
-                ></div>
-              </div>
-
-              <div className="mt-3 text-sm text-gray-400">
-                {animatedPercentages[index] >= 90 ? 'Expert Level' : 
-                 animatedPercentages[index] >= 85 ? 'Advanced' : 'Proficient'}
-              </div>
+              {service.icon}
+            </div>
+          ))}
+        </div>
+        
+        {/* Key Metrics "Stat Wall" */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto mt-12">
+          {[
+            { value: `₹${adSpend}Cr+`, label: 'Ad Spend Managed', color: 'text-blue-400' },
+            { value: `${industries}+`, label: 'Industries Served', color: 'text-green-400' },
+            { value: `${campaigns}+`, label: 'Campaigns Launched', color: 'text-yellow-400' },
+            { value: `${retention}%`, label: 'Client Retention', color: 'text-red-400' }
+          ].map(stat => (
+            <div key={stat.label} className="bg-gray-900/50 border border-white/10 rounded-xl p-6 text-center">
+              <div className={`text-4xl md:text-5xl font-bold ${stat.color}`}>{stat.value}</div>
+              <div className="text-sm text-gray-400 mt-2">{stat.label}</div>
             </div>
           ))}
         </div>
 
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-          <div className="text-center bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6">
-            <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-              <TrendingUp className="w-6 h-6 text-blue-400" />
+        {/* Infinite Marquee for Platform Expertise */}
+        <div className="mt-20 relative [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]">
+            <div className="flex w-max animate-marquee">
+                {[...Array(2)].map((_, i) => (
+                    <div key={i} className="flex space-x-12 px-6">
+                        <span className="text-xl font-semibold text-gray-400">Google Ads</span>
+                        <span className="text-xl font-semibold text-gray-400">YouTube Ads</span>
+                        <span className="text-xl font-semibold text-gray-400">Google Analytics (GA4)</span>
+                        <span className="text-xl font-semibold text-gray-400">Google Tag Manager</span>
+                        <span className="text-xl font-semibold text-gray-400">Meta Ads</span>
+                        <span className="text-xl font-semibold text-gray-400">Shopify</span>
+                    </div>
+                ))}
             </div>
-            <div className="text-3xl font-bold text-blue-400 mb-2">₹50Cr+</div>
-            <div className="text-gray-400 text-sm">Ad Spend Managed</div>
-          </div>
-          <div className="text-center bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6">
-            <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-              <Users className="w-6 h-6 text-green-400" />
-            </div>
-            <div className="text-3xl font-bold text-green-400 mb-2">15+</div>
-            <div className="text-gray-400 text-sm">Industries Served</div>
-          </div>
-          <div className="text-center bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6">
-            <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-              <Zap className="w-6 h-6 text-yellow-400" />
-            </div>
-            <div className="text-3xl font-bold text-yellow-400 mb-2">1000+</div>
-            <div className="text-gray-400 text-sm">Campaigns Launched</div>
-          </div>
-          <div className="text-center bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6">
-            <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-              <Brain className="w-6 h-6 text-red-400" />
-            </div>
-            <div className="text-3xl font-bold text-red-400 mb-2">98%</div>
-            <div className="text-gray-400 text-sm">Client Retention</div>
-          </div>
-        </div>
-
-        <div className="mt-16 bg-gradient-to-r from-blue-500/10 to-green-500/10 rounded-2xl p-8 border border-gray-700/50">
-          <div className="text-center">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Google Marketing Platform Expertise
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="text-lg font-semibold text-blue-400">Google Ads</div>
-                <div className="text-sm text-gray-400">Certified Expert</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-semibold text-red-400">YouTube Ads</div>
-                <div className="text-sm text-gray-400">Video Specialist</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-semibold text-yellow-400">Analytics</div>
-                <div className="text-sm text-gray-400">GA4 & GTM</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-semibold text-green-400">Tag Manager</div>
-                <div className="text-sm text-gray-400">Implementation</div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
