@@ -1,45 +1,43 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Target, BarChart3, Search, MousePointer, Palette, FlaskConical, TrendingUp, Users, Brain } from 'lucide-react';
+import { Target, BarChart3, Search, MousePointer, Palette, FlaskConical, Zap, TrendingUp, Users, Brain } from 'lucide-react';
 
 interface Service {
   name: string;
   icon: React.ReactNode;
   description: string;
-  color: 'blue' | 'green' | 'yellow' | 'red' | 'purple' | 'teal';
+  gridSpan?: string; // For bento grid layout
 }
 
 const services: Service[] = [
   {
-    name: 'Google Ads & Performance Marketing',
+    name: 'Google Ads Strategy & Execution',
     icon: <Target className="w-8 h-8" />,
-    description: 'Building and managing high-ROAS campaigns across Search, P-Max, and Display networks. My core focus is on profitable, data-driven scaling.',
-    color: 'blue',
+    description: 'Building and managing high-ROAS campaigns across Search, P-Max, and Display networks.',
+    gridSpan: 'lg:col-span-2', // Make this one wider on large screens
   },
   {
-    name: 'Full-Funnel Media Strategy',
+    name: 'Full-Funnel Media Planning',
     icon: <BarChart3 className="w-8 h-8" />,
-    description: 'Designing integrated media plans that guide users from initial awareness with video and display, to final conversion with search and retargeting.',
-    color: 'green',
+    description: 'Designing integrated media plans that guide users from initial awareness to final conversion.',
   },
   {
-    name: 'Analytics & Insight Mining',
+    name: 'Data Analytics & Insight Mining',
     icon: <Search className="w-8 h-8" />,
-    description: 'Using GA4, server-side tracking, and data platforms to uncover actionable insights that drive every strategic decision.',
-    color: 'yellow',
+    description: 'Using GA4 and analytics platforms to uncover actionable insights that drive strategy.',
   },
   {
-    name: 'Conversion Rate Optimization (CRO)',
+    name: 'Landing Page & CRO',
     icon: <MousePointer className="w-8 h-8" />,
-    description: 'A/B testing landing pages, ad creatives, and user funnels to systematically increase conversion rates and reduce acquisition costs.',
-    color: 'red',
+    description: 'Optimizing landing pages and user funnels to maximize conversion rates.',
   },
   {
-    name: 'Creative Strategy for Paid Media',
+    name: 'Paid Creative & A/B Testing',
     icon: <Palette className="w-8 h-8" />,
-    description: 'Guiding creative strategy to produce ad assets—from static images to short-form video—that resonate with the target audience and convert.',
-    color: 'purple',
+    description: 'Guiding creative strategy and implementing rigorous testing frameworks to find and scale winners.',
+    gridSpan: 'lg:col-span-2', // Make this one wider on large screens
   },
 ];
+
 
 const useCountUp = (end: number, duration: number, isVisible: boolean) => {
   const [count, setCount] = useState(0);
@@ -62,17 +60,19 @@ const useCountUp = (end: number, duration: number, isVisible: boolean) => {
 };
 
 const ServicesSection: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsVisible(true);
-        observer.unobserve(entry.target);
-      }
-    }, { rootMargin: '0px 0px -200px 0px' });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: '0px 0px -100px 0px' }
+    );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
@@ -82,89 +82,93 @@ const ServicesSection: React.FC = () => {
   const campaigns = useCountUp(1000, 2000, isVisible);
   const retention = useCountUp(98, 2000, isVisible);
 
-  const getColorClasses = (color: Service['color']) => {
-    const colors = {
-      blue: { text: 'text-blue-300', border: 'border-blue-500/50', shadow: 'shadow-blue-500/50' },
-      green: { text: 'text-green-300', border: 'border-green-500/50', shadow: 'shadow-green-500/50' },
-      yellow: { text: 'text-yellow-300', border: 'border-yellow-500/50', shadow: 'shadow-yellow-500/50' },
-      red: { text: 'text-red-300', border: 'border-red-500/50', shadow: 'shadow-red-500/50' },
-      purple: { text: 'text-purple-300', border: 'border-purple-500/50', shadow: 'shadow-purple-500/50' },
-      teal: { text: 'text-teal-300', border: 'border-teal-500/50', shadow: 'shadow-teal-500/50' },
-    };
-    return colors[color];
-  };
 
   return (
     <section ref={sectionRef} className="py-24 bg-black relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(29,78,216,0.15),transparent_50%)]"></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className={`text-center mb-16 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">The Skill Stack</h2>
+          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">Core Expertise</h2>
           <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-            My expertise is a full-stack approach to growth. From high-level strategy to hands-on execution, each skill builds upon the others to create a powerful, cohesive engine for your brand.
+            I help brands scale profitably through a blend of data-backed strategy, full-funnel execution, and relentless optimization.
           </p>
         </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* LEFT: The Interactive Skill Stack */}
-          <div className="relative h-[28rem] w-full">
-            {services.map((service, index) => {
-              const offset = (index - activeIndex + services.length) % services.length;
-              const isActive = offset === 0;
-              const colors = getColorClasses(service.color);
 
-              return (
-                <div
-                  key={service.name}
-                  onClick={() => setActiveIndex(index)}
-                  className="absolute w-full h-full cursor-pointer transition-all duration-500 ease-in-out"
-                  style={{
-                    transform: `translateY(${offset * 1.5}rem) scale(${1 - offset * 0.05})`,
-                    zIndex: services.length - offset,
-                    opacity: offset > 2 ? 0 : 1, // Show top 3 cards
-                  }}
-                >
-                  <div className={`relative w-full h-full rounded-2xl p-6 border transition-all duration-500 ease-in-out
-                    ${isActive ? `${colors.border} ${colors.shadow} bg-gray-900/40 backdrop-blur-md` : 'bg-gray-900/20 backdrop-blur-sm border-white/10'}`}
-                  >
-                    <div className={`transition-all duration-500 ease-in-out ${isActive ? 'opacity-100' : 'opacity-50'}`}>
-                      <div className="flex items-center gap-4">
-                        <div className={`p-3 rounded-lg transition-colors duration-500 ${isActive ? colors.text.replace('300', '400') + ' bg-white/10' : 'text-gray-300'}`}>
-                          {service.icon}
+        {/* Interactive Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service, index) => (
+            <div
+              key={service.name}
+              className={`group relative rounded-xl p-1 transition-all duration-500 ease-out bg-white/10 hover:bg-transparent ${service.gridSpan || ''} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+              style={{ transitionDelay: `${index * 100}ms` }}
+            >
+              {/* Animated Gradient Border */}
+              <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-blue-600 via-green-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-gradient-spin"></div>
+              
+              <div className="relative h-full rounded-lg bg-gray-900 p-6 overflow-hidden">
+                <div className="relative z-10">
+                    {/* Icon - Animates to top left */}
+                    <div className="transition-all duration-300 ease-out group-hover:scale-75 group-hover:-translate-x-2 group-hover:-translate-y-2">
+                        <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400 inline-block">
+                            {service.icon}
                         </div>
-                        <h3 className={`text-xl font-bold transition-colors duration-500 ${isActive ? 'text-white' : 'text-gray-400'}`}>
-                          {service.name}
-                        </h3>
-                      </div>
-                      <p className={`mt-4 text-gray-300 transition-all duration-500 ease-in-out ${isActive ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
-                        {service.description}
-                      </p>
                     </div>
-                  </div>
+                    
+                    {/* Content - Animates up/in */}
+                    <div className="mt-4">
+                        <h3 className="text-xl font-bold text-white transition-all duration-300 ease-out group-hover:-translate-y-2">
+                            {service.name}
+                        </h3>
+                        <p className="text-gray-400 leading-relaxed mt-2 h-0 opacity-0 transform translate-y-4 group-hover:h-auto group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out delay-100">
+                            {service.description}
+                        </p>
+                    </div>
                 </div>
-              );
-            })}
-          </div>
-
-          {/* RIGHT: Stat Wall */}
-          <div className="grid grid-cols-2 gap-6">
-             {[
-              { value: `₹${adSpend}Cr+`, label: 'Ad Spend Managed', color: 'text-blue-400' },
-              { value: `${industries}+`, label: 'Industries Served', color: 'text-green-400' },
-              { value: `${campaigns}+`, label: 'Campaigns Launched', color: 'text-yellow-400' },
-              { value: `${retention}%`, label: 'Client Retention', color: 'text-red-400' }
-            ].map((stat, index) => (
-              <div 
-                key={stat.label} 
-                className={`bg-gray-900/50 border border-white/10 rounded-xl p-6 text-center transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                style={{ transitionDelay: `${index * 150}ms`}}
-              >
-                <div className={`text-4xl md:text-5xl font-bold ${stat.color}`}>{stat.value}</div>
-                <div className="text-sm text-gray-400 mt-2">{stat.label}</div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
+        
+        {/* Stat Wall */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto mt-20">
+           {[
+            { value: `₹${adSpend}Cr+`, label: 'Ad Spend Managed', color: 'text-blue-400' },
+            { value: `${industries}+`, label: 'Industries Served', color: 'text-green-400' },
+            { value: `${campaigns}+`, label: 'Campaigns Launched', color: 'text-yellow-400' },
+            { value: `${retention}%`, label: 'Client Retention', color: 'text-red-400' }
+          ].map((stat, index) => (
+            <div 
+              key={stat.label} 
+              className={`bg-gray-900/50 border border-white/10 rounded-xl p-6 text-center transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+              style={{ transitionDelay: `${index * 150}ms`}}
+            >
+              <div className={`text-4xl md:text-5xl font-bold ${stat.color}`}>{stat.value}</div>
+              <div className="text-sm text-gray-400 mt-2">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Infinite Marquee */}
+        <div className="mt-20 relative [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]">
+            <div className="flex w-max animate-marquee-fast">
+                {/* We repeat the array 4 times to ensure a seamless loop on ultra-wide screens */}
+                {[...Array(4)].map((_, i) => (
+                    <div key={i} className="flex items-center space-x-12 px-6">
+                        <span className="text-xl font-semibold text-gray-400 whitespace-nowrap">Google Ads</span>
+                        <div className="w-2 h-2 rounded-full bg-gray-600 flex-shrink-0"></div>
+                        <span className="text-xl font-semibold text-gray-400 whitespace-nowrap">YouTube Ads</span>
+                        <div className="w-2 h-2 rounded-full bg-gray-600 flex-shrink-0"></div>
+                        <span className="text-xl font-semibold text-gray-400 whitespace-nowrap">Google Analytics (GA4)</span>
+                        <div className="w-2 h-2 rounded-full bg-gray-600 flex-shrink-0"></div>
+                        <span className="text-xl font-semibold text-gray-400 whitespace-nowrap">Google Tag Manager</span>
+                        <div className="w-2 h-2 rounded-full bg-gray-600 flex-shrink-0"></div>
+                        <span className="text-xl font-semibold text-gray-400 whitespace-nowrap">Meta Ads</span>
+                        <div className="w-2 h-2 rounded-full bg-gray-600 flex-shrink-0"></div>
+                        <span className="text-xl font-semibold text-gray-400 whitespace-nowrap">Shopify</span>
+                    </div>
+                ))}
+            </div>
         </div>
       </div>
     </section>
