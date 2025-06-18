@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Search, BrainCircuit, Filter, Rocket, TrendingUp, Lightbulb } from 'lucide-react';
 
-// New interface tailored to the PURE framework content
+// Interface and frameworkSteps array remain the same
 interface FrameworkStep {
   letter: string;
   title: string;
@@ -41,7 +41,6 @@ const frameworkSteps: FrameworkStep[] = [
   }
 ];
 
-// Helper to get Tailwind CSS color classes
 const getColorClasses = (color: 'blue' | 'yellow' | 'green' | 'red') => {
   switch (color) {
     case 'blue':
@@ -139,39 +138,44 @@ const FrameworkSection: React.FC = () => {
           })}
         </div>
         
-        {/* Result & Bonus Tip Sections */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto mt-16">
-          {/* Result Card */}
+        {/* === NEW: Result & Bonus Tip Sections === */}
+        <div className="max-w-5xl mx-auto mt-20 flex flex-col gap-10">
+          
+          {/* Result Highlight Block */}
           <div 
             ref={addToRefs('result')}
-            className={`bg-green-500/10 border border-green-500/30 rounded-2xl p-8 transition-all duration-700 ease-out ${visibleElements['result'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+            className={`relative p-8 md:p-10 rounded-2xl border border-green-500 bg-gradient-to-br from-green-500/10 via-black/10 to-black/0 shadow-2xl shadow-green-500/10 transition-all duration-1000 ease-out ${visibleElements['result'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
           >
-            <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 text-green-400 mt-1">
-                <TrendingUp className="w-6 h-6"/>
+            <div className="flex flex-col md:flex-row items-center text-center md:text-left gap-8">
+              <div className="flex-shrink-0">
+                <div className="w-20 h-20 rounded-full bg-gray-900 border-2 border-green-500/50 flex items-center justify-center">
+                  <TrendingUp className="w-10 h-10 text-green-400"/>
+                </div>
               </div>
               <div>
-                <h4 className="text-xl font-bold text-white mb-2">The Result?</h4>
-                <p className="text-green-200/80 leading-relaxed">
+                <h4 className="text-2xl font-bold text-white mb-3">The Result?</h4>
+                <p className="text-lg text-green-200/90 leading-relaxed">
                   ROAS often improves within days, cost per acquisition drops, and your campaign efficiency spikes. This isn’t guesswork — it’s sequencing backed by pattern and practice.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Bonus Tip Card */}
+          {/* Bonus Tip Highlight Block */}
           <div
             ref={addToRefs('bonus')}
-            className={`bg-yellow-500/10 border border-yellow-500/30 rounded-2xl p-8 transition-all duration-700 ease-out ${visibleElements['bonus'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-            style={{ transitionDelay: '150ms' }}
+            className={`relative p-8 md:p-10 rounded-2xl border border-yellow-500 bg-gradient-to-br from-yellow-500/10 via-black/10 to-black/0 shadow-2xl shadow-yellow-500/10 transition-all duration-1000 ease-out ${visibleElements['bonus'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
+            style={{ transitionDelay: '200ms' }}
           >
-            <div className="flex items-start space-x-4">
-              <div className="flex-shrink-0 text-yellow-400 mt-1">
-                <Lightbulb className="w-6 h-6"/>
+            <div className="flex flex-col md:flex-row items-center text-center md:text-left gap-8">
+               <div className="flex-shrink-0">
+                <div className="w-20 h-20 rounded-full bg-gray-900 border-2 border-yellow-500/50 flex items-center justify-center">
+                  <Lightbulb className="w-10 h-10 text-yellow-400"/>
+                </div>
               </div>
               <div>
-                <h4 className="text-xl font-bold text-white mb-2">Bonus Tip</h4>
-                <p className="text-yellow-200/80 leading-relaxed">
+                <h4 className="text-2xl font-bold text-white mb-3">Bonus Tip</h4>
+                <p className="text-lg text-yellow-200/90 leading-relaxed">
                   Most people test creatives — few test keyword purity. PURE flips the typical script by prioritizing the refinement of search intent first.
                 </p>
               </div>
