@@ -1,210 +1,133 @@
-import React, { useState, useEffect } from 'react';
-import { Quote, ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import React, 'useState, useEffect, useCallback } from 'react';
+import { Quote } from 'lucide-react';
 
+// New, simpler interface to match the provided content
 interface Testimonial {
-  id: string;
   name: string;
   role: string;
   company: string;
-  content: string;
-  rating: number;
-  initials: string;
-  color: string;
+  quote: string;
 }
 
 const testimonials: Testimonial[] = [
   {
-    id: '1',
-    name: 'Rajesh Kumar',
+    name: 'Gaurav Khanna',
     role: 'CEO',
-    company: 'Matrix eSIM',
-    content: 'Vishal transformed our digital presence completely. His strategic approach to Google Ads helped us scale from ₹2K to ₹5L daily revenue. The ROI we achieved was beyond our expectations, and his data-driven insights continue to drive our growth.',
-    rating: 5,
-    initials: 'RK',
-    color: 'from-blue-500 to-blue-600'
+    company: 'Matrix.in',
+    quote: 'Vishal isn’t just a campaign runner — he’s a full-blown strategist. His PURE framework helped us cut wasted spend by 40% while scaling conversions by over 2.5x. He knows how to combine data and creativity like few others.'
   },
   {
-    id: '2',
-    name: 'Priya Sharma',
+    name: 'Mrs. Annanya',
     role: 'Marketing Head',
-    company: 'Shiv Naresh',
-    content: 'Working with Vishal was a game-changer for our traditional business. He brought modern digital marketing strategies while respecting our brand values. The 320% revenue growth speaks for itself. Highly recommended!',
-    rating: 5,
-    initials: 'PS',
-    color: 'from-green-500 to-green-600'
+    company: 'Shiv Naresh Sports',
+    quote: 'We came to Vishal for ad campaigns — but ended up getting a complete growth system. From product bundling to funnel tweaks, he helped double our website sales in just 6 months.'
   },
   {
-    id: '3',
-    name: 'Michael Chen',
-    role: 'Digital Marketing Manager',
-    company: 'TechFlow Solutions',
-    content: 'Vishal\'s expertise in Google Ads and data analytics is exceptional. He helped us reduce our CAC by 60% while improving lead quality. His systematic approach and attention to detail make him stand out in the industry.',
-    rating: 5,
-    initials: 'MC',
-    color: 'from-yellow-500 to-yellow-600'
+    name: 'Rahul Saxena',
+    role: 'Ex-Colleague',
+    company: 'Paid Ads Specialist',
+    quote: 'One of the sharpest minds in digital performance. Vishal sees beyond metrics — he sees business impact. His strategies are both scalable and smart.'
   },
   {
-    id: '4',
-    name: 'Sarah Williams',
-    role: 'Founder',
-    company: 'GrowthHive',
-    content: 'I\'ve worked with many marketing professionals, but Vishal\'s combination of technical expertise and strategic thinking is rare. His PURE framework approach delivered consistent results across all our campaigns.',
-    rating: 5,
-    initials: 'SW',
-    color: 'from-red-500 to-red-600'
+    name: 'Komal',
+    role: 'Junior Paid Media Analyst',
+    company: 'Mentee',
+    quote: 'Working under Vishal’s leadership was a masterclass. I learned more in 6 months about performance marketing, GTM setups, and creative testing than in years of trial and error.'
   },
   {
-    id: '5',
-    name: 'Amit Patel',
-    role: 'Co-founder',
-    company: 'DataDriven',
-    content: 'Vishal doesn\'t just run ads; he builds growth systems. His deep understanding of analytics and conversion optimization helped us achieve sustainable 4x ROAS. A true marketing strategist.',
-    rating: 5,
-    initials: 'AP',
-    color: 'from-purple-500 to-purple-600'
+    name: 'Faytech',
+    role: 'International Client',
+    company: 'Global Campaigns',
+    quote: 'We partnered with Vishal for lead generation in India, Germany, the Middle East, and Africa. His targeting precision and multi-region experience brought in qualified leads with a measurable drop in CPL across the board.'
   }
 ];
 
 const TestimonialsSection: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isFading, setIsFading] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-
+  
+  const handleSelect = useCallback((index: number) => {
+    if (index === activeIndex) return;
+    setIsAutoPlaying(false);
+    setIsFading(true);
+    setTimeout(() => {
+      setActiveIndex(index);
+      setIsFading(false);
+    }, 200); // This duration should match the fade-out transition
+  }, [activeIndex]);
+  
   useEffect(() => {
     if (!isAutoPlaying) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+      handleSelect((activeIndex + 1) % testimonials.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, [isAutoPlaying, activeIndex, handleSelect]);
 
-  const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    setIsAutoPlaying(false);
-  };
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-    setIsAutoPlaying(false);
-  };
-
-  const goToTestimonial = (index: number) => {
-    setCurrentIndex(index);
-    setIsAutoPlaying(false);
-  };
 
   return (
-    <section className="py-20 bg-black relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500/5 rounded-full blur-xl"></div>
-        <div className="absolute bottom-20 right-10 w-24 h-24 bg-green-500/5 rounded-full blur-xl"></div>
-      </div>
-
-      <div className="container mx-auto px-6 relative z-10">
+    <section className="relative py-24 bg-black text-white overflow-hidden">
+      {/* Futuristic Background Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900/40 via-black to-black opacity-70"></div>
+      
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
-            Client <span className="text-green-400">Testimonials</span>
+            What Clients & Teammates Say
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Don't just take my word for it. Here's what my clients say about working with me.
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            Real feedback from leaders, colleagues, and partners I've had the pleasure to work with.
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto relative">
-          {/* Main Testimonial Card */}
-          <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 lg:p-12 relative overflow-hidden">
-            {/* Quote Icon */}
-            <div className="absolute top-6 right-6 opacity-10">
-              <Quote className="w-16 h-16 text-white" />
-            </div>
-
-            <div className="relative">
-              {/* Testimonial Content */}
-              <div className="mb-8">
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-10 lg:gap-16">
+          {/* Left Side: Testimonial Selectors */}
+          <div className="lg:w-1/3 space-y-3">
+            {testimonials.map((testimonial, index) => (
+              <button
+                key={index}
+                onClick={() => handleSelect(index)}
+                className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-300 ease-in-out relative overflow-hidden group ${
+                  activeIndex === index
+                    ? 'border-blue-500 bg-blue-500/10 shadow-lg shadow-blue-500/20'
+                    : 'border-transparent bg-gray-800/20 hover:bg-gray-800/50'
+                }`}
+              >
+                <div className="font-bold text-white text-lg">{testimonial.name}</div>
+                <div className="text-sm text-gray-400">{testimonial.role}, {testimonial.company}</div>
                 
-                <blockquote className="text-xl lg:text-2xl text-gray-100 leading-relaxed italic">
-                  "{testimonials[currentIndex].content}"
+                {/* Active indicator bar */}
+                <div
+                  className={`absolute left-0 top-0 h-full w-1 bg-blue-500 transition-transform duration-300 ease-in-out ${
+                    activeIndex === index ? 'scale-y-100' : 'scale-y-0'
+                  } group-hover:scale-y-100`}
+                ></div>
+              </button>
+            ))}
+          </div>
+
+          {/* Right Side: Main Display Card */}
+          <div className="lg:w-2/3">
+            <div className="relative bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 md:p-12 min-h-[300px] flex flex-col justify-center">
+              {/* Decorative Quote Icon */}
+              <Quote className="absolute top-8 right-8 w-24 h-24 text-white/5" />
+              
+              {/* Animated Content */}
+              <div
+                className={`transition-opacity duration-200 ease-in-out ${isFading ? 'opacity-0' : 'opacity-100'}`}
+              >
+                <blockquote className="text-xl md:text-2xl leading-relaxed text-gray-200 mb-8">
+                  “{testimonials[activeIndex].quote}”
                 </blockquote>
-              </div>
-
-              {/* Author Info */}
-              <div className="flex items-center space-x-4">
-                <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${testimonials[currentIndex].color} flex items-center justify-center text-white font-bold`}>
-                  {testimonials[currentIndex].initials}
-                </div>
-                <div>
-                  <div className="text-white font-semibold text-lg">
-                    {testimonials[currentIndex].name}
-                  </div>
-                  <div className="text-gray-400">
-                    {testimonials[currentIndex].role} at {testimonials[currentIndex].company}
-                  </div>
+                <div className="text-right">
+                  <p className="font-bold text-white text-xl">{testimonials[activeIndex].name}</p>
+                  <p className="text-gray-400">{testimonials[activeIndex].role}, {testimonials[activeIndex].company}</p>
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Navigation Controls */}
-          <div className="flex items-center justify-between mt-8">
-            <button
-              onClick={prevTestimonial}
-              className="p-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full border border-gray-600 transition-all duration-300 hover:scale-110"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            {/* Dots Indicator */}
-            <div className="flex space-x-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToTestimonial(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentIndex 
-                      ? 'bg-blue-500 scale-125' 
-                      : 'bg-gray-600 hover:bg-gray-500'
-                  }`}
-                />
-              ))}
-            </div>
-
-            <button
-              onClick={nextTestimonial}
-              className="p-3 bg-gray-800 hover:bg-gray-700 text-white rounded-full border border-gray-600 transition-all duration-300 hover:scale-110"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Progress Bar */}
-          <div className="mt-6 h-1 bg-gray-700 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300"
-              style={{ width: `${((currentIndex + 1) / testimonials.length) * 100}%` }}
-            ></div>
-          </div>
-        </div>
-
-        {/* Stats Section */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
-          <div className="text-center">
-            <div className="text-3xl font-bold text-blue-400 mb-2">98%</div>
-            <div className="text-gray-400">Client Satisfaction</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-green-400 mb-2">4.9/5</div>
-            <div className="text-gray-400">Average Rating</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-yellow-400 mb-2">95%</div>
-            <div className="text-gray-400">Client Retention</div>
           </div>
         </div>
       </div>
