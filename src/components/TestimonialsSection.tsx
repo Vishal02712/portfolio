@@ -36,14 +36,14 @@ const testimonials: Testimonial[] = [
   {
     name: 'Komal',
     role: 'Junior Paid Media Analyst',
-    company: 'Mentee',
+    company: 'digiDZN',
     quote: 'Working under Vishal’s leadership was a masterclass. I learned more in 6 months about performance marketing, GTM setups, and creative testing than in years of trial and error.',
     color: 'green'
   },
   {
-    name: 'Faytech',
-    role: 'International Client',
-    company: 'Global Campaigns',
+    name: 'Bernard van Strien',
+    role: 'Marketing Head',
+    company: 'faytech',
     quote: 'We partnered with Vishal for lead generation in India, Germany, the Middle East, and Africa. His targeting precision and multi-region experience brought in qualified leads with a measurable drop in CPL across the board.',
     color: 'blue' // Repeating blue for the 5th item
   }
