@@ -94,8 +94,6 @@ const HeroSection: React.FC = () => {
             </a>
           </div>
 
-         
-
         {/* Right Content - Graph and Dashboard */}
         <div className="lg:w-1/2 relative">
           <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 space-y-8 shadow-2xl">
