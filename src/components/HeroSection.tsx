@@ -51,7 +51,7 @@ const HeroSection: React.FC = () => {
 
           <div className="space-y-6">
             <h1 className="text-6xl lg:text-8xl font-bold text-white leading-tight">
-              <span className="text-blue-400">Vishal</span>
+              <span className="text-blue-400">VISHAL</span>
               <br />
               <span className="text-gray-100">Choudhary</span>
             </h1>
