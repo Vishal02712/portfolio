@@ -1,172 +1,176 @@
-import React, { useEffect, useState } from 'react';
-import { ChevronRight, TrendingUp, Brain, Code, BarChart3, Award, Download, Eye, Target, Zap } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ChevronRight, Download, TrendingUp, Target, BarChart3, Zap, Quote } from 'lucide-react';
+
+// A simple hook for the count-up animation, can be placed inside or outside the component
+const useCountUp = (end: number, duration: number = 2) => {
+  const [count, setCount] = React.useState(0);
+  const controls = React.useRef<any>(null);
+
+  React.useEffect(() => {
+    const node = { value: 0 };
+    controls.current = motion.div({
+        value: end
+    }, {
+        duration,
+        ease: "easeOut",
+        onUpdate: (latest) => {
+            setCount(parseFloat(latest.value.toFixed(1)));
+        }
+    });
+
+    // Dummy subscription to start the animation
+    const unsubscribe = controls.current.state.value.onChange(() => {});
+    return () => unsubscribe();
+  }, [end, duration]);
+
+  return count;
+};
 
 const HeroSection: React.FC = () => {
-  const [animatedNumbers, setAnimatedNumbers] = useState({
-    clients: 0,
-    experience: 0,
-    roas: 0
-  });
+  const clients = useCountUp(120);
+  const experience = useCountUp(5.9);
+  const roas = useCountUp(4.2);
 
-  useEffect(() => {
-    const animateNumbers = () => {
-      const duration = 2000;
-      const steps = 60;
-      const clientsTarget = 120;
-      const experienceTarget = 5.9;
-      const roasTarget = 4;
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
 
-      let step = 0;
-      const interval = setInterval(() => {
-        step++;
-        const progress = step / steps;
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-
-        setAnimatedNumbers({
-          clients: Math.floor(clientsTarget * easeOut),
-          experience: parseFloat((experienceTarget * easeOut).toFixed(1)),
-          roas: parseFloat((roasTarget * easeOut).toFixed(1))
-        });
-
-        if (step >= steps) {
-          clearInterval(interval);
-        }
-      }, duration / steps);
-    };
-
-    const timer = setTimeout(animateNumbers, 500);
-    return () => clearTimeout(timer);
-  }, []);
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 relative overflow-hidden">
-      <div className="relative z-10 container mx-auto px-6 py-16 flex flex-col lg:flex-row items-center min-h-screen gap-12">
-        {/* Left Content */}
-        <div className="lg:w-1/2 space-y-10">
-          <div className="inline-flex items-center space-x-3 bg-gray-800/60 backdrop-blur-sm px-6 py-3 rounded-full border border-gray-700/50">
-            <Brain className="w-5 h-5 text-blue-400" />
-            <span className="text-sm font-medium text-gray-300">Built Entirely with AI + Analytics</span>
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-          </div>
+    <section className="min-h-screen bg-black relative overflow-hidden flex items-center justify-center">
+      {/* Animated Background */}
+      <div className="absolute inset-0 z-0 opacity-30">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(29,78,216,0.15),transparent_60%)]"></div>
+        <div 
+          className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)]"
+          style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '2rem 2rem' }}
+        ></div>
+      </div>
 
-          <div className="space-y-6">
-            <h1 className="text-6xl lg:text-8xl font-bold text-white leading-tight">
-              <span className="text-blue-400">Vishal</span>
-              <br />
-              <span className="text-gray-100">Choudhary</span>
-            </h1>
+      <div className="relative z-10 container mx-auto px-4 md:px-6 py-16">
+        <motion.div 
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center"
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+        >
+          {/* Left Content */}
+          <div className="flex flex-col gap-8">
+            <motion.h1 
+              className="text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tighter"
+              variants={itemVariants}
+            >
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
+                Vishal Choudhary
+              </span>
+            </motion.h1>
 
-            <div className="space-y-3">
-              <h2 className="text-2xl lg:text-3xl font-semibold text-gray-200">
-                Performance Marketer | Google Ads Specialist
-              </h2>
-              <p className="text-xl lg:text-2xl text-gray-300 leading-relaxed max-w-2xl">
-                Turning Ad Spend into Profit with <span className="text-yellow-400 font-semibold">Strategic Insight</span> and
-                <span className="text-red-400 font-semibold"> Full-Funnel Execution</span>
+            <motion.p 
+              className="text-2xl md:text-3xl text-gray-300 leading-snug"
+              variants={itemVariants}
+            >
+              Performance Marketer driving business growth through data-driven ad strategies.
+            </motion.p>
+            
+            {/* New Core Philosophy Quote */}
+            <motion.div 
+              className="border-l-4 border-blue-500 pl-4 py-2 bg-blue-500/10"
+              variants={itemVariants}
+            >
+              <Quote className="w-6 h-6 text-blue-400 mb-2 opacity-70" fill="currentColor" />
+              <p className="text-xl italic text-gray-200">
+                I treat every campaign like a business, not just a budget.
               </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-6">
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 text-center hover:border-blue-500/50 transition-all duration-300">
-              <div className="text-3xl font-bold text-blue-400 mb-2">{animatedNumbers.clients}+</div>
-              <div className="text-sm text-gray-400 font-medium">Clients Handled</div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 text-center hover:border-green-500/50 transition-all duration-300">
-              <div className="text-3xl font-bold text-green-400 mb-2">{animatedNumbers.experience}</div>
-              <div className="text-sm text-gray-400 font-medium">Years of Expertise</div>
-            </div>
-            <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 text-center hover:border-red-500/50 transition-all duration-300">
-              <div className="text-3xl font-bold text-red-400 mb-2">{animatedNumbers.roas}x+</div>
-              <div className="text-sm text-gray-400 font-medium">Avg. Client ROAS</div>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-6">
-            <a href="#case-studies" className="group bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-3 shadow-lg shadow-blue-500/25">
-              <Eye className="w-5 h-5" />
-              <span>View Case Studies</span>
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a href="/Vishal-Choudhary-Resume.pdf" download className="group bg-gray-800/60 backdrop-blur-sm hover:bg-gray-700/60 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 border border-gray-600/50 hover:border-gray-500 flex items-center justify-center space-x-3">
-              <Download className="w-5 h-5" />
-              <span>Download Resume</span>
-            </a>
-          </div>
-
-          <div className="inline-flex items-center space-x-3 text-sm text-gray-400 bg-gray-900/40 backdrop-blur-sm px-4 py-2 rounded-lg border border-gray-700/30">
-            <Code className="w-4 h-4" />
-            <span>This site is powered by AI. Just like my campaigns.</span>
-          </div>
-        </div>
-
-        {/* Right Content - Graph and Dashboard */}
-        <div className="lg:w-1/2 relative">
-          <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 space-y-8 shadow-2xl">
-            <div className="flex items-center justify-between">
-              <h3 className="text-white font-semibold text-lg">Google Ads Performance</h3>
-              <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-sm text-gray-400">Live</span>
-              </div>
-            </div>
-
-            {/* Animated Graph Restored */}
-            <div className="h-48 bg-gray-900/60 rounded-xl p-6 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-t from-blue-500/5 to-transparent"></div>
-              <div className="absolute inset-0 flex items-end justify-between px-6 pb-6">
-                {[40, 65, 45, 80, 60, 90, 75, 95, 85, 100].map((height, index) => (
-                  <div
-                    key={index}
-                    className="w-4 bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-sm animate-pulse shadow-lg shadow-blue-500/30"
-                    style={{
-                      height: `${height}%`,
-                      animationDelay: `${index * 150}ms`
-                    }}
-                  ></div>
-                ))}
-              </div>
-              <div className="absolute top-6 left-6 text-xs text-gray-400 font-medium">Revenue Growth Trend</div>
-              <div className="absolute top-6 right-6 text-xs text-green-400 font-medium">+2,400%</div>
-            </div>
-
-            {/* Performance Metrics */}
-            <div className="grid grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <TrendingUp className="w-4 h-4 text-green-400" />
-                  <span className="text-sm text-gray-400 font-medium">ROAS</span>
+            </motion.div>
+            
+            <motion.div className="flex flex-col sm:flex-row gap-4" variants={itemVariants}>
+              <a 
+                href="#case-studies" 
+                className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+              >
+                <div className="absolute -inset-px bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg group-hover:opacity-100 transition-opacity duration-200 opacity-70"></div>
+                <div className="relative z-10 flex items-center">
+                  View Case Studies
+                  <ChevronRight className="w-5 h-5 ml-2 transition-transform duration-200 group-hover:translate-x-1" />
                 </div>
-                <div className="text-3xl font-bold text-green-400">4.2x</div>
-                <div className="text-xs text-green-400">+180% vs target</div>
-              </div>
-              <div className="space-y-2">
+              </a>
+              <a 
+                href="/Vishal-Choudhary-Resume.pdf" 
+                download 
+                className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-gray-900 rounded-lg border border-white/20 hover:border-white/40"
+              >
+                Download Resume
+                <Download className="w-5 h-5 ml-2 transition-transform duration-200 group-hover:-translate-y-1" />
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Right Content - The "Performance Module" */}
+          <motion.div 
+            className="space-y-6"
+            variants={itemVariants}
+          >
+            <div className="bg-gray-900/50 backdrop-blur-md border border-white/10 rounded-2xl p-6 shadow-2xl shadow-black/40">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-white font-semibold text-lg">Live Performance Snapshot</h3>
                 <div className="flex items-center space-x-2">
-                  <Target className="w-4 h-4 text-yellow-400" />
-                  <span className="text-sm text-gray-400 font-medium">Conv. Rate</span>
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-sm text-gray-400">Live Data</span>
                 </div>
-                <div className="text-3xl font-bold text-yellow-400">12.8%</div>
-                <div className="text-xs text-yellow-400">Above industry avg</div>
               </div>
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <BarChart3 className="w-4 h-4 text-blue-400" />
-                  <span className="text-sm text-gray-400 font-medium">CTR</span>
+
+              {/* Animated Graph */}
+              <div className="h-40 bg-black/30 rounded-lg p-4 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-500/10 to-transparent"></div>
+                <div className="absolute inset-0 flex items-end justify-between px-4">
+                  {[40, 65, 45, 80, 60, 90, 75, 95, 85, 100, 70, 88].map((height, index) => (
+                    <motion.div
+                      key={index}
+                      className="w-3 bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-sm"
+                      initial={{ height: 0 }}
+                      animate={{ height: `${height}%` }}
+                      transition={{ duration: 1, delay: 0.5 + index * 0.05, ease: "easeOut" }}
+                    ></motion.div>
+                  ))}
                 </div>
-                <div className="text-3xl font-bold text-blue-400">8.5%</div>
-                <div className="text-xs text-blue-400">Quality Score: 9.2</div>
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <Zap className="w-4 h-4 text-red-400" />
-                  <span className="text-sm text-gray-400 font-medium">CPC</span>
-                </div>
-                <div className="text-3xl font-bold text-red-400">₹12</div>
-                <div className="text-xs text-red-400">-35% optimized</div>
               </div>
             </div>
-          </div>
-        </div>
+            
+            {/* Key Stats */}
+            <div className="grid grid-cols-3 gap-4">
+              <div className="bg-gray-900/50 backdrop-blur-md border border-white/10 rounded-lg p-4 text-center">
+                <div className="text-3xl font-bold text-blue-400">{clients}+</div>
+                <div className="text-xs text-gray-400">Clients</div>
+              </div>
+              <div className="bg-gray-900/50 backdrop-blur-md border border-white/10 rounded-lg p-4 text-center">
+                <div className="text-3xl font-bold text-green-400">{experience}</div>
+                <div className="text-xs text-gray-400">Years Expertise</div>
+              </div>
+              <div className="bg-gray-900/50 backdrop-blur-md border border-white/10 rounded-lg p-4 text-center">
+                <div className="text-3xl font-bold text-red-400">{roas}x</div>
+                <div className="text-xs text-gray-400">Avg. ROAS</div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
