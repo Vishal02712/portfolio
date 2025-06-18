@@ -22,90 +22,92 @@ const caseStudies: CaseStudy[] = [
     id: 'matrix-esim',
     company: 'Matrix eSIM',
     period: 'Aug 2022 – Present',
-    description: 'Leading digital transformation for international connectivity solutions',
-    challenge: 'Matrix eSIM needed to scale their digital presence and drive revenue growth in the competitive eSIM market while maintaining cost-effective customer acquisition.',
+    description: 'Pioneering international eSIM adoption with a performance-led digital strategy.',
+    challenge:
+      'Matrix eSIM needed to break into the saturated global eSIM market while keeping acquisition cost low and maximizing revenue from India-based travelers.',
     solution: [
-      'Implemented comprehensive Google Ads strategy across Search, Display, and YouTube',
-      'Developed data-driven audience segmentation and targeting',
-      'Created automated bidding strategies and smart campaign optimization',
-      'Built conversion tracking and attribution modeling'
+      'Designed high-conversion landing experiences for 40+ destinations',
+      'Ran Google Ads across 6 campaign types including Performance Max & Demand Gen',
+      'Built and deployed AI-powered scripts to auto-pause non-converting search terms',
+      'Implemented my proprietary PURE Framework for daily optimization'
     ],
     results: [
       {
         metric: 'Daily Revenue',
-        value: '₹5L',
-        change: '+24,900% from ₹2K',
+        value: '₹5L+',
+        change: 'from ₹2K baseline',
         icon: <DollarSign className="w-5 h-5" />
       },
       {
-        metric: 'eSIM Sales',
+        metric: 'Top Product Revenue Share',
         value: '78%',
-        change: 'of total revenue',
+        change: 'from eSIMs alone',
         icon: <Target className="w-5 h-5" />
       },
       {
-        metric: 'ROAS',
+        metric: 'Avg. ROAS',
         value: '4.2x',
-        change: '+180% improvement',
+        change: 'with stable scaling',
         icon: <TrendingUp className="w-5 h-5" />
       },
       {
         metric: 'Customer Base',
         value: '50K+',
-        change: 'active users',
+        change: 'unique eSIM buyers',
         icon: <Users className="w-5 h-5" />
       }
     ],
     keyAchievements: [
-      'Scaled daily revenue from ₹2,000 to ₹5,00,000',
-      'Achieved 78% of total sales from eSIM products',
-      'Maintained sustainable 4.2x ROAS across all channels',
-      'Built automated systems for continuous optimization'
+      'Grew sales from ₹2,000 to ₹5,00,000/day in <12 months',
+      'Maintained 4.2x+ ROAS while scaling 40x+',
+      'Reduced Cost/Conv through AI-led optimizations',
+      'Implemented full-funnel tracking with server-side attribution'
     ]
   },
   {
     id: 'shiv-naresh',
     company: 'Shiv Naresh',
     period: 'Aug 2022 – May 2024',
-    description: 'Transforming traditional business through digital marketing excellence',
-    challenge: 'Shiv Naresh required a complete digital marketing overhaul to compete in the modern marketplace while preserving their traditional brand values.',
+    description: 'Digitizing a legacy Indian brand with high-performing paid ads.',
+    challenge:
+      'Shiv Naresh needed to evolve from offline-first retail to a digital-first model, while driving qualified leads for both B2C and institutional sales.',
     solution: [
-      'Designed multi-channel paid advertising strategy',
-      'Implemented advanced analytics and conversion tracking',
-      'Created targeted campaigns for different customer segments',
-      'Developed landing page optimization and CRO strategies'
+      'Launched full-funnel lead-gen campaigns on Google, Meta, and YouTube',
+      'Deployed advanced location-based targeting for event sponsorships & cricket merchandise',
+      'Custom-built landing experiences for lead magnet forms and direct WhatsApp CTAs',
+      'Trained internal team (Annanya) on ad operations for long-term autonomy'
     ],
     results: [
       {
         metric: 'Revenue Growth',
         value: '320%',
-        change: 'year-over-year',
+        change: 'in 14 months',
         icon: <TrendingUp className="w-5 h-5" />
       },
       {
         metric: 'Lead Quality',
         value: '85%',
-        change: 'qualified leads',
+        change: 'rated qualified',
         icon: <Target className="w-5 h-5" />
       },
       {
-        metric: 'Cost per Acquisition',
+        metric: 'Cost per Lead',
         value: '-60%',
-        change: 'reduction',
+        change: 'reduction achieved',
         icon: <DollarSign className="w-5 h-5" />
       },
       {
-        metric: 'Market Share',
+        metric: 'Market Penetration',
         value: '35%',
-        change: 'in target region',
+        change: 'in key regions',
         icon: <Users className="w-5 h-5" />
       }
     ],
     keyAchievements: [
-      'Delivered 320% revenue growth year-over-year',
-      'Reduced customer acquisition cost by 60%',
-      'Increased lead quality score to 85%',
-      'Captured 35% market share in target region'
+      'Tripled lead volume while reducing CPL by 60%',
+      'Delivered 320% YoY revenue surge',
+      'Collaborated with in-house marketing (Annanya) for seamless handoff',
+      'Established Shiv Naresh as a top-of-mind brand online'
     ]
   }
 ];
@@ -125,7 +127,7 @@ const CaseStudiesSection: React.FC = () => {
             Success <span className="text-green-400">Stories</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Real results from real clients. Data-driven strategies that transformed businesses.
+            From traditional retail to AI-first scale-ups – a look at my data-backed transformation journeys.
           </p>
         </div>
 
