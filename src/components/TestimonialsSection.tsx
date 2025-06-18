@@ -1,4 +1,4 @@
-import React, 'useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Quote } from 'lucide-react';
 
 // New, simpler interface to match the provided content
@@ -61,11 +61,24 @@ const TestimonialsSection: React.FC = () => {
     if (!isAutoPlaying) return;
 
     const interval = setInterval(() => {
-      handleSelect((activeIndex + 1) % testimonials.length);
+      // Use the functional form of setState inside the callback to avoid stale state issues
+      setActiveIndex(prevIndex => (prevIndex + 1) % testimonials.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, activeIndex, handleSelect]);
+  }, [isAutoPlaying]);
+
+
+  // When auto-playing, we need to handle the fade effect differently
+  useEffect(() => {
+    if (isAutoPlaying) {
+      setIsFading(true);
+      const timer = setTimeout(() => {
+        setIsFading(false);
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [activeIndex, isAutoPlaying]);
 
 
   return (
