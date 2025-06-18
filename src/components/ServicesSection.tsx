@@ -1,178 +1,176 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Target, BarChart3, Search, MousePointer, Palette, FlaskConical, Zap, TrendingUp, Users, Brain } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Target, BarChart3, Search, Lightbulb, Palette, TestTube, TrendingUp } from 'lucide-react';
 
-interface Service {
-  name: string;
-  icon: React.ReactNode;
-  description: string;
-  gridSpan?: string; // For bento grid layout
-}
-
-const services: Service[] = [
-  {
-    name: 'Google Ads Strategy & Execution',
-    icon: <Target className="w-8 h-8" />,
-    description: 'Building and managing high-ROAS campaigns across Search, P-Max, and Display networks.',
-    gridSpan: 'lg:col-span-2', // Make this one wider on large screens
-  },
-  {
-    name: 'Full-Funnel Media Planning',
-    icon: <BarChart3 className="w-8 h-8" />,
-    description: 'Designing integrated media plans that guide users from initial awareness to final conversion.',
-  },
-  {
-    name: 'Data Analytics & Insight Mining',
-    icon: <Search className="w-8 h-8" />,
-    description: 'Using GA4 and analytics platforms to uncover actionable insights that drive strategy.',
-  },
-  {
-    name: 'Landing Page & CRO',
-    icon: <MousePointer className="w-8 h-8" />,
-    description: 'Optimizing landing pages and user funnels to maximize conversion rates.',
-  },
-  {
-    name: 'Paid Creative & A/B Testing',
-    icon: <Palette className="w-8 h-8" />,
-    description: 'Guiding creative strategy and implementing rigorous testing frameworks to find and scale winners.',
-    gridSpan: 'lg:col-span-2', // Make this one wider on large screens
-  },
-];
-
-
-const useCountUp = (end: number, duration: number, isVisible: boolean) => {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!isVisible) return;
-    let frame = 0;
-    const totalFrames = Math.round(duration / (1000 / 60));
-    const counter = setInterval(() => {
-      frame++;
-      const progress = 1 - Math.pow(1 - frame / totalFrames, 3);
-      setCount(Math.round(end * progress));
-      if (frame === totalFrames) {
-        clearInterval(counter);
-        setCount(end);
-      }
-    }, 1000 / 60);
-    return () => clearInterval(counter);
-  }, [end, duration, isVisible]);
-  return count;
-};
-
-const ServicesSection: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
+const Services = () => {
+  const [hoveredService, setHoveredService] = useState<number | null>(null);
+  const [progressValues, setProgressValues] = useState([0, 0, 0, 0, 0, 0]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
+    const targetValues = [94, 92, 90, 88, 90, 87];
+    const animateProgress = () => {
+      const duration = 2000;
+      const steps = 60;
+      const interval = duration / steps;
+
+      let currentStep = 0;
+      const timer = setInterval(() => {
+        currentStep++;
+        const progress = currentStep / steps;
+        
+        setProgressValues(targetValues.map(target => Math.floor(progress * target)));
+
+        if (currentStep >= steps) {
+          setProgressValues(targetValues);
+          clearInterval(timer);
         }
-      },
-      { rootMargin: '0px 0px -100px 0px' }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
+      }, interval);
+    };
+
+    const timer = setTimeout(animateProgress, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
-  const adSpend = useCountUp(50, 2000, isVisible);
-  const industries = useCountUp(15, 2000, isVisible);
-  const campaigns = useCountUp(1000, 2000, isVisible);
-  const retention = useCountUp(98, 2000, isVisible);
-
+  const services = [
+    {
+      icon: Target,
+      title: "Google Ads Strategy & Execution",
+      description: "End-to-end Google Ads management with advanced bidding strategies, keyword optimization, and performance tracking that delivers consistent ROAS.",
+      progress: progressValues[0],
+      targetProgress: 94,
+      color: "from-blue-500 to-blue-600",
+      borderColor: "border-blue-500/30",
+      iconColor: "text-blue-400"
+    },
+    {
+      icon: TrendingUp,
+      title: "Full-Funnel Media Planning",
+      description: "Comprehensive media strategy across all touchpoints, from awareness to conversion, ensuring optimal budget allocation and maximum impact.",
+      progress: progressValues[1],
+      targetProgress: 92,
+      color: "from-green-500 to-green-600",
+      borderColor: "border-green-500/30",
+      iconColor: "text-green-400"
+    },
+    {
+      icon: BarChart3,
+      title: "Data Analytics & Insight Mining",
+      description: "Deep-dive analytics and data interpretation that uncover hidden opportunities and drive strategic decision-making for campaign optimization.",
+      progress: progressValues[2],
+      targetProgress: 90,
+      color: "from-red-500 to-red-600",
+      borderColor: "border-red-500/30",
+      iconColor: "text-red-400"
+    },
+    {
+      icon: Search,
+      title: "Landing Page Optimization",
+      description: "Conversion-focused landing page design and optimization using A/B testing and user behavior analysis to maximize conversion rates.",
+      progress: progressValues[3],
+      targetProgress: 88,
+      color: "from-yellow-500 to-yellow-600",
+      borderColor: "border-yellow-500/30",
+      iconColor: "text-yellow-400"
+    },
+    {
+      icon: Palette,
+      title: "Paid Creative Direction",
+      description: "Strategic creative development for paid campaigns, including ad copy, visual assets, and creative testing frameworks that drive engagement.",
+      progress: progressValues[4],
+      targetProgress: 90,
+      color: "from-purple-500 to-purple-600",
+      borderColor: "border-purple-500/30",
+      iconColor: "text-purple-400"
+    },
+    {
+      icon: TestTube,
+      title: "A/B Testing & Scaling Strategy",
+      description: "Systematic testing methodologies and scaling frameworks that identify winning campaigns and optimize performance at scale.",
+      progress: progressValues[5],
+      targetProgress: 87,
+      color: "from-pink-500 to-pink-600",
+      borderColor: "border-pink-500/30",
+      iconColor: "text-pink-400"
+    }
+  ];
 
   return (
-    <section ref={sectionRef} className="py-24 bg-black relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(29,78,216,0.15),transparent_50%)]"></div>
+    <section className="py-20 bg-gray-800 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-20 w-32 h-32 bg-blue-500/5 rounded-full animate-pulse"></div>
+        <div className="absolute bottom-40 right-20 w-24 h-24 bg-green-500/5 rounded-full animate-bounce"></div>
+        <div className="absolute top-1/2 right-1/3 w-16 h-16 bg-red-500/5 rounded-full animate-ping"></div>
+      </div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className={`text-center mb-16 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">Core Expertise</h2>
-          <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-            I help brands scale profitably through a blend of data-backed strategy, full-funnel execution, and relentless optimization.
-          </p>
-        </div>
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
+              Core Services &
+              <span className="block bg-gradient-to-r from-blue-400 via-green-400 to-red-400 bg-clip-text text-transparent">
+                Expertise Areas
+              </span>
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              Comprehensive digital marketing services backed by data-driven strategies 
+              and proven methodologies that deliver measurable results.
+            </p>
+          </div>
 
-        {/* Interactive Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service, index) => (
-            <div
-              key={service.name}
-              className={`group relative rounded-xl p-1 transition-all duration-500 ease-out bg-white/10 hover:bg-transparent ${service.gridSpan || ''} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              {/* Animated Gradient Border */}
-              <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-blue-600 via-green-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-gradient-spin"></div>
-              
-              <div className="relative h-full rounded-lg bg-gray-900 p-6 overflow-hidden">
-                <div className="relative z-10">
-                    {/* Icon - Animates to top left */}
-                    <div className="transition-all duration-300 ease-out group-hover:scale-75 group-hover:-translate-x-2 group-hover:-translate-y-2">
-                        <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400 inline-block">
-                            {service.icon}
-                        </div>
-                    </div>
-                    
-                    {/* Content - Animates up/in */}
-                    <div className="mt-4">
-                        <h3 className="text-xl font-bold text-white transition-all duration-300 ease-out group-hover:-translate-y-2">
-                            {service.name}
-                        </h3>
-                        <p className="text-gray-400 leading-relaxed mt-2 h-0 opacity-0 transform translate-y-4 group-hover:h-auto group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out delay-100">
-                            {service.description}
-                        </p>
-                    </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service, index) => (
+              <div 
+                key={index}
+                className={`bg-gray-900/50 backdrop-blur-sm rounded-2xl p-6 border ${service.borderColor} hover:border-opacity-60 transition-all duration-300 transform hover:scale-105 group cursor-pointer`}
+                onMouseEnter={() => setHoveredService(index)}
+                onMouseLeave={() => setHoveredService(null)}
+              >
+                <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <service.icon className="w-7 h-7 text-white" />
+                </div>
+                
+                <h3 className="text-xl font-bold text-white mb-3">{service.title}</h3>
+                <p className="text-gray-400 leading-relaxed mb-4">{service.description}</p>
+                
+                {/* Animated Progress Bar */}
+                <div className="mb-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-gray-300 text-sm">Expertise Level</span>
+                    <span className={`text-sm font-semibold ${service.iconColor}`}>{service.progress}%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-3">
+                    <div 
+                      className={`bg-gradient-to-r ${service.color} h-3 rounded-full transition-all duration-2000 ease-out ${
+                        hoveredService === index ? 'animate-pulse' : ''
+                      }`}
+                      style={{ 
+                        width: `${service.progress}%`,
+                        transitionDelay: `${index * 200}ms`
+                      }}
+                    ></div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-        
-        {/* Stat Wall */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto mt-20">
-           {[
-            { value: `₹${adSpend}Cr+`, label: 'Ad Spend Managed', color: 'text-blue-400' },
-            { value: `${industries}+`, label: 'Industries Served', color: 'text-green-400' },
-            { value: `${campaigns}+`, label: 'Campaigns Launched', color: 'text-yellow-400' },
-            { value: `${retention}%`, label: 'Client Retention', color: 'text-red-400' }
-          ].map((stat, index) => (
-            <div 
-              key={stat.label} 
-              className={`bg-gray-900/50 border border-white/10 rounded-xl p-6 text-center transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-              style={{ transitionDelay: `${index * 150}ms`}}
-            >
-              <div className={`text-4xl md:text-5xl font-bold ${stat.color}`}>{stat.value}</div>
-              <div className="text-sm text-gray-400 mt-2">{stat.label}</div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        {/* Infinite Marquee */}
-        <div className="mt-20 relative [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]">
-            <div className="flex w-max animate-marquee-fast">
-                {/* We repeat the array 4 times to ensure a seamless loop on ultra-wide screens */}
-                {[...Array(4)].map((_, i) => (
-                    <div key={i} className="flex items-center space-x-12 px-6">
-                        <span className="text-xl font-semibold text-gray-400 whitespace-nowrap">Google Ads</span>
-                        <div className="w-2 h-2 rounded-full bg-gray-600 flex-shrink-0"></div>
-                        <span className="text-xl font-semibold text-gray-400 whitespace-nowrap">YouTube Ads</span>
-                        <div className="w-2 h-2 rounded-full bg-gray-600 flex-shrink-0"></div>
-                        <span className="text-xl font-semibold text-gray-400 whitespace-nowrap">Google Analytics (GA4)</span>
-                        <div className="w-2 h-2 rounded-full bg-gray-600 flex-shrink-0"></div>
-                        <span className="text-xl font-semibold text-gray-400 whitespace-nowrap">Google Tag Manager</span>
-                        <div className="w-2 h-2 rounded-full bg-gray-600 flex-shrink-0"></div>
-                        <span className="text-xl font-semibold text-gray-400 whitespace-nowrap">Meta Ads</span>
-                        <div className="w-2 h-2 rounded-full bg-gray-600 flex-shrink-0"></div>
-                        <span className="text-xl font-semibold text-gray-400 whitespace-nowrap">Shopify</span>
-                    </div>
-                ))}
+          <div className="mt-16 text-center">
+            <div className="bg-gradient-to-r from-blue-500/10 to-green-500/10 backdrop-blur-sm rounded-2xl p-8 border border-gray-700">
+              <Target className="w-12 h-12 text-blue-400 mx-auto mb-4 animate-bounce" />
+              <h3 className="text-2xl font-bold text-white mb-4">Ready to Scale Your Marketing?</h3>
+              <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                Let's discuss how these proven strategies can transform your business growth. 
+                Every campaign is tailored to your unique goals and market dynamics.
+              </p>
+              <button className="bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 transform hover:scale-105">
+                Schedule Strategy Call
+              </button>
             </div>
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-export default ServicesSection;
+export default Services;
