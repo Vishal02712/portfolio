@@ -154,9 +154,9 @@ const CaseStudiesSection: React.FC = () => {
                     </div>
                   </div>
                   <ChevronDown
-                    className={w-6 h-6 text-gray-400 transition-transform duration-300 ${
+                    className={`w-6 h-6 text-gray-400 transition-transform duration-300 ${
                       expandedCase === study.id ? 'rotate-180' : ''
-                    }}
+                    }`}
                   />
                 </div>
                 <p className="text-gray-300 mt-4">{study.description}</p>
