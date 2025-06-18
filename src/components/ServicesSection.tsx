@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Search, Target, BarChart3, MousePointer, Palette, FlaskConical, TrendingUp, Users, Zap, Brain } from 'lucide-react';
-
+import { ..., Megaphone, Youtube, BarChartBig, Tags } from 'lucide-react'; 
+        
 interface Service {
   name: string;
   percentage: number;
@@ -187,34 +188,66 @@ const ServicesSection: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-16 bg-gradient-to-r from-blue-500/10 to-green-500/10 rounded-2xl p-8 border border-gray-700/50">
-          <div className="text-center">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Google Marketing Platform Expertise
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="text-lg font-semibold text-blue-400">Google Ads</div>
-                <div className="text-sm text-gray-400">Certified Expert</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-semibold text-red-400">YouTube Ads</div>
-                <div className="text-sm text-gray-400">Video Specialist</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-semibold text-yellow-400">Analytics</div>
-                <div className="text-sm text-gray-400">GA4 & GTM</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-semibold text-green-400">Tag Manager</div>
-                <div className="text-sm text-gray-400">Implementation</div>
-              </div>
+        <div className="mt-20">
+  {/* Main Console Container */}
+  <div className="relative rounded-2xl border border-white/10 bg-gray-900/40 p-8 backdrop-blur-sm overflow-hidden">
+    {/* Futuristic background grid pattern */}
+    <div 
+      className="absolute inset-0 opacity-20" 
+      style={{ backgroundImage: 'linear-gradient(white 1px, transparent 1px), linear-gradient(to right, white 1px, transparent 1px)', backgroundSize: '2rem 2rem' }}
+    ></div>
+    
+    <div className="relative z-10 text-center">
+      <h3 className="text-3xl font-bold text-white mb-8">
+        Platform Proficiency
+      </h3>
+      
+      {/* Grid of Interactive Modules */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+        {[
+          { 
+            name: 'Google Ads', 
+            role: 'Certified Expert', 
+            icon: <Megaphone className="w-8 h-8" />, 
+            color: { text: 'text-blue-400', shadow: 'hover:shadow-blue-500/30' } 
+          },
+          { 
+            name: 'YouTube Ads', 
+            role: 'Video Specialist', 
+            icon: <Youtube className="w-8 h-8" />, 
+            color: { text: 'text-red-400', shadow: 'hover:shadow-red-500/30' } 
+          },
+          { 
+            name: 'Analytics', 
+            role: 'GA4 & GTM', 
+            icon: <BarChartBig className="w-8 h-8" />, 
+            color: { text: 'text-yellow-400', shadow: 'hover:shadow-yellow-500/30' } 
+          },
+          { 
+            name: 'Tag Manager', 
+            role: 'Implementation', 
+            icon: <Tags className="w-8 h-8" />, 
+            color: { text: 'text-green-400', shadow: 'hover:shadow-green-500/30' } 
+          }
+        ].map((platform, index) => (
+          <div 
+            key={platform.name}
+            className={`group relative p-6 bg-gray-900/50 rounded-xl border border-white/10 transition-all duration-300 ease-out hover:scale-105 hover:-translate-y-2 hover:border-white/20 ${platform.color.shadow}`}
+            style={{ transitionDelay: `${index * 100}ms` }}
+          >
+            <div className={`mb-4 transition-colors duration-300 ${platform.color.text}`}>
+              {platform.icon}
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+            <div className="text-lg font-bold text-white">{platform.name}</div>
+            <div className="text-sm text-gray-400">{platform.role}</div>
 
+            {/* Subtle glow effect */}
+            <div className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-10 transition-opacity duration-300 ${platform.color.text.replace('text-', 'bg-')}`}/>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+        
 export default ServicesSection;
