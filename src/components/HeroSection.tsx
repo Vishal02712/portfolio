@@ -40,8 +40,6 @@ const HeroSection: React.FC = () => {
 
   return (
     <section className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 relative overflow-hidden">
-      {/* Floating Visuals and Grid removed for brevity */}
-
       <div className="relative z-10 container mx-auto px-6 py-16 flex flex-col lg:flex-row items-center min-h-screen gap-12">
         {/* Left Content */}
         <div className="lg:w-1/2 space-y-10">
@@ -102,8 +100,73 @@ const HeroSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Right content remains unchanged unless you want more edits */}
+        {/* Right Content - Graph and Dashboard */}
+        <div className="lg:w-1/2 relative">
+          <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 space-y-8 shadow-2xl">
+            <div className="flex items-center justify-between">
+              <h3 className="text-white font-semibold text-lg">Google Ads Performance</h3>
+              <div className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-sm text-gray-400">Live</span>
+              </div>
+            </div>
 
+            {/* Animated Graph Restored */}
+            <div className="h-48 bg-gray-900/60 rounded-xl p-6 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-t from-blue-500/5 to-transparent"></div>
+              <div className="absolute inset-0 flex items-end justify-between px-6 pb-6">
+                {[40, 65, 45, 80, 60, 90, 75, 95, 85, 100].map((height, index) => (
+                  <div
+                    key={index}
+                    className="w-4 bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-sm animate-pulse shadow-lg shadow-blue-500/30"
+                    style={{
+                      height: `${height}%`,
+                      animationDelay: `${index * 150}ms`
+                    }}
+                  ></div>
+                ))}
+              </div>
+              <div className="absolute top-6 left-6 text-xs text-gray-400 font-medium">Revenue Growth Trend</div>
+              <div className="absolute top-6 right-6 text-xs text-green-400 font-medium">+2,400%</div>
+            </div>
+
+            {/* Performance Metrics */}
+            <div className="grid grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <TrendingUp className="w-4 h-4 text-green-400" />
+                  <span className="text-sm text-gray-400 font-medium">ROAS</span>
+                </div>
+                <div className="text-3xl font-bold text-green-400">4.2x</div>
+                <div className="text-xs text-green-400">+180% vs target</div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <Target className="w-4 h-4 text-yellow-400" />
+                  <span className="text-sm text-gray-400 font-medium">Conv. Rate</span>
+                </div>
+                <div className="text-3xl font-bold text-yellow-400">12.8%</div>
+                <div className="text-xs text-yellow-400">Above industry avg</div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <BarChart3 className="w-4 h-4 text-blue-400" />
+                  <span className="text-sm text-gray-400 font-medium">CTR</span>
+                </div>
+                <div className="text-3xl font-bold text-blue-400">8.5%</div>
+                <div className="text-xs text-blue-400">Quality Score: 9.2</div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <Zap className="w-4 h-4 text-red-400" />
+                  <span className="text-sm text-gray-400 font-medium">CPC</span>
+                </div>
+                <div className="text-3xl font-bold text-red-400">₹12</div>
+                <div className="text-xs text-red-400">-35% optimized</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
