@@ -44,6 +44,12 @@ const services: Service[] = [
     percentage: 87,
     icon: <FlaskConical className="w-6 h-6" />,
     color: 'from-teal-500 to-teal-600'
+  },
+  {
+    name: 'Snapchat + Meta Ads Performance',
+    percentage: 85,
+    icon: <Zap className="w-6 h-6" />,
+    color: 'from-pink-500 to-yellow-500'
   }
 ];
 
@@ -92,7 +98,6 @@ const ServicesSection: React.FC = () => {
 
   return (
     <section ref={sectionRef} className="py-20 bg-gray-900/50 relative overflow-hidden">
-      {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 right-20 w-32 h-32 bg-blue-500/5 rounded-full blur-xl"></div>
         <div className="absolute bottom-20 left-20 w-40 h-40 bg-green-500/5 rounded-full blur-xl"></div>
@@ -104,7 +109,7 @@ const ServicesSection: React.FC = () => {
             Core <span className="text-blue-400">Expertise</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Specialized skills in performance marketing and data-driven growth strategies for enterprise-level campaigns
+            I help brands scale profitably through data-backed media strategies, full-funnel execution, and creative testing – all measured by ROAS and customer LTV.
           </p>
         </div>
 
@@ -126,7 +131,6 @@ const ServicesSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Progress Bar */}
               <div className="relative">
                 <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
                   <div
@@ -134,10 +138,9 @@ const ServicesSection: React.FC = () => {
                     style={{ width: `${animatedPercentages[index]}%` }}
                   ></div>
                 </div>
-                
-                {/* Animated Glow Effect */}
+
                 <div
-                  className={`absolute top-0 h-3 w-6 bg-gradient-to-r ${service.color} opacity-70 blur-sm transition-all duration-2000 ease-out`}
+                  className={`absolute top-0 h-3 w-6 bg-gradient-to-r ${service.color} opacity-70 blur-sm transition-all duration-2000 ease-out animate-pulse`}
                   style={{ 
                     left: `${Math.max(0, animatedPercentages[index] - 5)}%`,
                     opacity: isVisible ? 0.7 : 0
@@ -145,7 +148,6 @@ const ServicesSection: React.FC = () => {
                 ></div>
               </div>
 
-              {/* Skill Level Indicator */}
               <div className="mt-3 text-sm text-gray-400">
                 {animatedPercentages[index] >= 90 ? 'Expert Level' : 
                  animatedPercentages[index] >= 85 ? 'Advanced' : 'Proficient'}
@@ -154,13 +156,12 @@ const ServicesSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Enhanced Stats for Google Application */}
         <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
           <div className="text-center bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6">
             <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
               <TrendingUp className="w-6 h-6 text-blue-400" />
             </div>
-            <div className="text-3xl font-bold text-blue-400 mb-2">$6M+</div>
+            <div className="text-3xl font-bold text-blue-400 mb-2">₹50Cr+</div>
             <div className="text-gray-400 text-sm">Ad Spend Managed</div>
           </div>
           <div className="text-center bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6">
@@ -186,7 +187,6 @@ const ServicesSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Google-Specific Skills Highlight */}
         <div className="mt-16 bg-gradient-to-r from-blue-500/10 to-green-500/10 rounded-2xl p-8 border border-gray-700/50">
           <div className="text-center">
             <h3 className="text-2xl font-bold text-white mb-4">
