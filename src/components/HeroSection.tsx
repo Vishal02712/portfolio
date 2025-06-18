@@ -45,7 +45,7 @@ const HeroSection: React.FC = () => {
         <div className="lg:w-1/2 space-y-10">
           <div className="inline-flex items-center space-x-3 bg-gray-800/60 backdrop-blur-sm px-6 py-3 rounded-full border border-gray-700/50">
             <Brain className="w-5 h-5 text-blue-400" />
-            <span className="text-sm font-medium text-gray-300">Built Entirely with AI + Analytics</span>
+            <span className="text-sm font-medium text-gray-300">I treat every campaign like a business, not just a budget.</span>
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
           </div>
 
