@@ -1,222 +1,184 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Search, Lightbulb, RefreshCw, Target } from 'lucide-react';
+import { Search, BrainCircuit, Filter, Rocket, TrendingUp, Lightbulb } from 'lucide-react';
 
+// New interface tailored to the PURE framework content
 interface FrameworkStep {
+  letter: string;
   title: string;
-  subtitle: string;
   description: string;
   icon: React.ReactNode;
-  color: string;
-  details: string[];
+  color: 'blue' | 'yellow' | 'green' | 'red';
 }
 
 const frameworkSteps: FrameworkStep[] = [
   {
-    title: 'PROBE',
-    subtitle: 'Deep Market Research',
-    description: 'Comprehensive analysis of market dynamics, competitor strategies, and audience behavior patterns.',
-    icon: <Search className="w-8 h-8" />,
-    color: 'from-blue-500 to-blue-600',
-    details: [
-      'Competitor landscape analysis',
-      'Keyword research & gap analysis',
-      'Customer journey mapping',
-      'Market opportunity assessment'
-    ]
+    letter: 'P',
+    title: 'Probe',
+    description: 'Start broad. Use broad match keywords targeting your core product and industry terms. Let the algorithm gather wide intent signals.',
+    icon: <Search className="w-7 h-7" />,
+    color: 'blue',
   },
   {
-    title: 'UNDERSTAND',
-    subtitle: 'Data-Driven Insights',
-    description: 'Transform raw data into actionable insights that drive strategic decision-making.',
-    icon: <Lightbulb className="w-8 h-8" />,
-    color: 'from-yellow-500 to-yellow-600',
-    details: [
-      'Performance metrics analysis',
-      'Customer segmentation',
-      'Attribution modeling',
-      'Predictive analytics'
-    ]
+    letter: 'U',
+    title: 'Understand',
+    description: 'Let the campaigns run for at least 10 days. Analyze the Search Terms Report to uncover what real users are actually searching.',
+    icon: <BrainCircuit className="w-7 h-7" />,
+    color: 'yellow',
   },
   {
-    title: 'REFINE',
-    subtitle: 'Strategic Optimization',
-    description: 'Continuous improvement through testing, optimization, and strategic refinements.',
-    icon: <RefreshCw className="w-8 h-8" />,
-    color: 'from-green-500 to-green-600',
-    details: [
-      'A/B testing campaigns',
-      'Conversion rate optimization',
-      'Budget reallocation',
-      'Creative iterations'
-    ]
+    letter: 'R',
+    title: 'Refine',
+    description: 'From the data, group low-CPC, high-ROAS search terms. These are your golden performers. Separate signal from noise.',
+    icon: <Filter className="w-7 h-7" />,
+    color: 'green',
   },
   {
-    title: 'EXTRACT',
-    subtitle: 'Maximum ROI',
-    description: 'Extract maximum value from every marketing dollar through precision targeting and optimization.',
-    icon: <Target className="w-8 h-8" />,
-    color: 'from-red-500 to-red-600',
-    details: [
-      'Performance scaling',
-      'ROI maximization',
-      'Automated optimizations',
-      'Strategic expansion'
-    ]
+    letter: 'E',
+    title: 'Extract',
+    description: 'Create a new ad group using the refined search terms. Add them as exact and phrase match only. Apply tighter budgets and better bidding logic.',
+    icon: <Rocket className="w-7 h-7" />,
+    color: 'red',
   }
 ];
 
+// Helper to get Tailwind CSS color classes
+const getColorClasses = (color: 'blue' | 'yellow' | 'green' | 'red') => {
+  switch (color) {
+    case 'blue':
+      return { text: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/30', iconBg: 'bg-blue-500' };
+    case 'yellow':
+      return { text: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/30', iconBg: 'bg-yellow-500' };
+    case 'green':
+      return { text: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/30', iconBg: 'bg-green-500' };
+    case 'red':
+      return { text: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/30', iconBg: 'bg-red-500' };
+  }
+};
+
 const FrameworkSection: React.FC = () => {
-  const [visibleSteps, setVisibleSteps] = useState<boolean[]>(new Array(frameworkSteps.length).fill(false));
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [visibleElements, setVisibleElements] = useState<Record<string, boolean>>({});
+  const refs = useRef<Map<string, HTMLDivElement | null>>(new Map());
 
   useEffect(() => {
-    const observers = stepRefs.current.map((ref, index) => {
-      if (!ref) return null;
-      
-      return new IntersectionObserver(
-        ([entry]) => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setVisibleSteps(prev => {
-              const newVisible = [...prev];
-              newVisible[index] = true;
-              return newVisible;
-            });
+            const key = Array.from(refs.current.keys()).find(
+              (k) => refs.current.get(k) === entry.target
+            );
+            if (key) {
+              setVisibleElements((prev) => ({ ...prev, [key]: true }));
+              observer.unobserve(entry.target);
+            }
           }
-        },
-        { threshold: 0.3 }
-      );
+        });
+      },
+      { threshold: 0.2, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    refs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
     });
 
-    stepRefs.current.forEach((ref, index) => {
-      if (ref && observers[index]) {
-        observers[index]!.observe(ref);
-      }
-    });
-
-    return () => {
-      observers.forEach(observer => observer?.disconnect());
-    };
+    return () => observer.disconnect();
   }, []);
 
+  const addToRefs = (key: string) => (el: HTMLDivElement | null) => {
+    if (el) {
+      refs.current.set(key, el);
+    } else {
+      refs.current.delete(key);
+    }
+  };
+
   return (
-    <section ref={sectionRef} className="py-20 bg-gray-900/50">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
+    <section className="py-24 bg-black">
+      <div className="container mx-auto px-4 md:px-6">
+        
+        {/* Section Header */}
+        <div 
+          ref={addToRefs('header')}
+          className={`text-center max-w-3xl mx-auto mb-20 transition-all duration-700 ease-out ${visibleElements['header'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+        >
           <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
-            The <span className="text-yellow-400">PURE</span> Framework
+            The <span className="text-blue-400">P</span><span className="text-yellow-400">U</span><span className="text-green-400">R</span><span className="text-red-400">E</span> Framework
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            My systematic approach to delivering consistent, measurable results across all marketing campaigns
+          <p className="text-xl text-gray-300 mb-6">
+            My Proven System for Scaling ROAS with Google Ads
+          </p>
+          <p className="text-gray-400 leading-relaxed">
+            Over the years, I’ve built a personal framework called PURE — a lean, data-driven process that helps uncover hidden performance in paid campaigns by turning chaos into clarity. Whether you’re starting fresh or optimizing a mature account, PURE helps identify, isolate, and scale the keywords that truly move the needle.
           </p>
         </div>
 
-        <div className="max-w-6xl mx-auto">
-          {frameworkSteps.map((step, index) => (
-            <div
-              key={index}
-              ref={el => stepRefs.current[index] = el}
-              className={`flex flex-col lg:flex-row items-center mb-16 lg:mb-24 transition-all duration-1000 ${
-                visibleSteps[index] 
-                  ? 'opacity-100 translate-y-0' 
-                  : 'opacity-0 translate-y-12'
-              } ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
-            >
-              {/* Content */}
-              <div className="lg:w-1/2 space-y-6 lg:px-8">
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-4">
-                    <div className={`p-3 rounded-xl bg-gradient-to-r ${step.color} text-white transform transition-transform duration-500 ${
-                      visibleSteps[index] ? 'scale-100 rotate-0' : 'scale-75 rotate-12'
-                    }`}>
+        {/* Framework Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
+          {frameworkSteps.map((step, index) => {
+            const colors = getColorClasses(step.color);
+            const key = `step-${index}`;
+            return (
+              <div
+                key={key}
+                ref={addToRefs(key)}
+                className={`relative p-8 rounded-2xl border ${colors.border} ${colors.bg} overflow-hidden transition-all duration-700 ease-out hover:border-white/30 hover:scale-[1.02] ${visibleElements[key] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                style={{ transitionDelay: `${index * 150}ms` }}
+              >
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className={`p-3 rounded-lg ${colors.iconBg} text-white`}>
                       {step.icon}
                     </div>
-                    <div>
-                      <h3 className="text-3xl font-bold text-white">{step.title}</h3>
-                      <p className="text-lg text-gray-400">{step.subtitle}</p>
-                    </div>
+                    <div className={`font-bold text-6xl ${colors.text} opacity-70`}>{step.letter}</div>
                   </div>
-                  
-                  <p className="text-gray-300 text-lg leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
-
-                <div className="space-y-3">
-                  {step.details.map((detail, detailIndex) => (
-                    <div
-                      key={detailIndex}
-                      className={`flex items-center space-x-3 transform transition-all duration-500 ${
-                        visibleSteps[index] 
-                          ? 'opacity-100 translate-x-0' 
-                          : 'opacity-0 -translate-x-4'
-                      }`}
-                      style={{ transitionDelay: `${detailIndex * 100 + 300}ms` }}
-                    >
-                      <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${step.color}`}></div>
-                      <span className="text-gray-300">{detail}</span>
-                    </div>
-                  ))}
+                  <h3 className="text-2xl font-bold text-white mb-2">{step.title}</h3>
+                  <p className="text-gray-300 leading-relaxed">{step.description}</p>
                 </div>
               </div>
-
-              {/* Visual Element */}
-              <div className="lg:w-1/2 mt-8 lg:mt-0 lg:px-8">
-                <div className={`relative transform transition-all duration-1000 ${
-                  visibleSteps[index] 
-                    ? 'opacity-100 scale-100' 
-                    : 'opacity-0 scale-95'
-                }`}>
-                  <div className="bg-gray-800/40 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 relative overflow-hidden">
-                    {/* Animated Background Pattern */}
-                    <div className="absolute inset-0 opacity-10">
-                      <div className={`absolute inset-0 bg-gradient-to-br ${step.color}`}></div>
-                    </div>
-                    
-                    {/* Step Number */}
-                    <div className="relative">
-                      <div className="text-6xl font-bold opacity-20 text-white mb-4">
-                        0{index + 1}
-                      </div>
-                      
-                      {/* Mock Data Visualization */}
-                      <div className="space-y-4">
-                        <div className="flex justify-between items-center">
-                          <span className="text-gray-400 text-sm">Progress</span>
-                          <span className="text-white font-semibold">{85 + index * 3}%</span>
-                        </div>
-                        <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-                          <div
-                            className={`h-full bg-gradient-to-r ${step.color} transition-all duration-2000 ease-out ${
-                              visibleSteps[index] ? 'w-full' : 'w-0'
-                            }`}
-                            style={{ transitionDelay: '500ms' }}
-                          ></div>
-                        </div>
-                        
-                        {/* Sample Metrics */}
-                        <div className="grid grid-cols-2 gap-4 mt-6">
-                          <div className="text-center">
-                            <div className="text-2xl font-bold text-white">
-                              {visibleSteps[index] ? (12 + index * 8) : 0}%
-                            </div>
-                            <div className="text-xs text-gray-400">Improvement</div>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-2xl font-bold text-white">
-                              {visibleSteps[index] ? (3.2 + index * 0.4).toFixed(1) : 0}x
-                            </div>
-                            <div className="text-xs text-gray-400">ROI</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            );
+          })}
+        </div>
+        
+        {/* Result & Bonus Tip Sections */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto mt-16">
+          {/* Result Card */}
+          <div 
+            ref={addToRefs('result')}
+            className={`bg-green-500/10 border border-green-500/30 rounded-2xl p-8 transition-all duration-700 ease-out ${visibleElements['result'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+          >
+            <div className="flex items-start space-x-4">
+              <div className="flex-shrink-0 text-green-400 mt-1">
+                <TrendingUp className="w-6 h-6"/>
+              </div>
+              <div>
+                <h4 className="text-xl font-bold text-white mb-2">The Result?</h4>
+                <p className="text-green-200/80 leading-relaxed">
+                  ROAS often improves within days, cost per acquisition drops, and your campaign efficiency spikes. This isn’t guesswork — it’s sequencing backed by pattern and practice.
+                </p>
               </div>
             </div>
-          ))}
+          </div>
+
+          {/* Bonus Tip Card */}
+          <div
+            ref={addToRefs('bonus')}
+            className={`bg-yellow-500/10 border border-yellow-500/30 rounded-2xl p-8 transition-all duration-700 ease-out ${visibleElements['bonus'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+            style={{ transitionDelay: '150ms' }}
+          >
+            <div className="flex items-start space-x-4">
+              <div className="flex-shrink-0 text-yellow-400 mt-1">
+                <Lightbulb className="w-6 h-6"/>
+              </div>
+              <div>
+                <h4 className="text-xl font-bold text-white mb-2">Bonus Tip</h4>
+                <p className="text-yellow-200/80 leading-relaxed">
+                  Most people test creatives — few test keyword purity. PURE flips the typical script by prioritizing the refinement of search intent first.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
+        
       </div>
     </section>
   );
