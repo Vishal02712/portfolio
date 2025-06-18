@@ -83,87 +83,89 @@ const caseStudies = [
           'Retained long-term — now leading all digital strategy as Marketing Manager'
         ]
       }
-    },
-    {
-      id: 'shiv-naresh',
-      company: 'Shiv Naresh',
-      period: 'Aug 2022 – May 2024',
-      description: 'Redirecting a Legacy Sportswear Brand Toward D2C Growth',
-      content: [
-        {
-          heading: 'Client',
-          text: 'Shiv Naresh — A nationally recognized Indian sportswear brand'
-        },
-        {
-          heading: 'Industry',
-          text: 'Apparel / Sportswear / eCommerce / D2C'
-        },
-        {
-          heading: 'Background',
-          text: 'Before onboarding, Shiv Naresh generated approximately ₹12K–₹15K/day from their own website, while significantly higher revenue came from marketplaces like Amazon and Flipkart. With rising return rates (~20%) and limited control over customer experience, the brand aimed to reduce platform dependency and build a direct-to-consumer (D2C) engine.'
-        },
-        {
-          heading: 'Objective',
-          text: 'Boost website-led revenue by repositioning the brand emotionally and functionally — transforming it from a functional sportswear provider into a symbol of athletic pride through strategic paid media and storytelling.'
-        },
-        {
-          heading: 'Strategic Phases',
-          text: 'Aug 2022 – May 2024'
-        },
-        {
-          heading: 'Phase 1: Context & Audience Mapping',
-          text: 'Challenge: Understand the emotional value behind purchases — is it affordability, quality, or pride?',
-          actions: [
-            'Conducted trendline research and brand keyword analysis via Google Trends',
-            'Identified Shiv Naresh as a pride-driven brand among Indian athletes and sports aspirants'
-          ],
-          result: 'Built a foundation to market the brand not just as a product, but as a badge of pride.'
-        },
-        {
-          heading: 'Phase 2: Timing-Based Sponsorship Activation',
-          text: 'Challenge: Drive mass visibility and brand recall at the right cultural moment.',
-          actions: [
-            'Partnered with Dabang Delhi as kit sponsor during Pro Kabaddi League (Oct 2022)',
-            'Ran supporting Google Ads campaigns aligned with search spikes during the league',
-            'Targeted kabaddi fans + local sports communities with contextual Display + YouTube ads'
-          ],
-          result: 'Brand visibility surged and drove a wave of branded searches and engagement on the website.'
-        },
-        {
-          heading: 'Phase 3: Digital Asset Campaign – “Pride in Performance”',
-          text: 'Challenge: Strengthen emotional connection and increase website trust.',
-          actions: [
-            'Produced a cinematic brand video featuring top Indian athletes across categories',
-            'Built the narrative around “Pride of Indian sportswear”',
-            'Invested 70% of media budget in video promotion across YouTube, Shorts, and Display'
-          ],
-          result: 'Drove deep engagement and brand lift, warming up audiences for conversion campaigns.'
-        },
-        {
-          heading: 'Phase 4: Conversion Campaigns & Funnel Optimization',
-          text: 'Challenge: Turn awareness into repeatable D2C sales.',
-          actions: [
-            'Launched Performance Max + branded Search campaigns to capture mid-funnel demand',
-            'Created bundled product sets and added urgency-based offers',
-            'Integrated Shopify audience tags for remarketing and upselling'
-          ],
-          result: 'Achieved 11x ROAS on branded campaigns and increased AOV by 18% through bundling.'
-        },
-        {
-          heading: 'Bonus Insight',
-          text: '“Sometimes your brand video isn’t just an awareness asset — it’s your best-performing pre-conversion driver. We primed the audience emotionally first, and then hit them with offer-based ads. The ROAS jump wasn’t a coincidence — it was sequencing.”'
-        },
-        {
-          heading: 'Outcome',
-          list: [
-            'Shifted focus from marketplaces to consistent website-led growth',
-            'Positioned Shiv Naresh as a premium Indian sportswear badge, not just an affordable alternative',
-            '70% media investment in video led to efficient conversions',
-            'Delivered 11x ROAS on branded terms + 18% increase in AOV',
-            'Used trend-driven timing (Kabaddi league) to unlock organic momentum'
-          ]
-        }
-      ]
-    }
+    ]
+  },
+  {
+    id: 'shiv-naresh',
+    company: 'Shiv Naresh',
+    period: 'Aug 2022 – May 2024',
+    description: 'Redirecting a Legacy Sportswear Brand Toward D2C Growth',
+    content: [
+      {
+        heading: 'Client',
+        text: 'Shiv Naresh — A nationally recognized Indian sportswear brand'
+      },
+      {
+        heading: 'Industry',
+        text: 'Apparel / Sportswear / eCommerce / D2C'
+      },
+      {
+        heading: 'Background',
+        text: 'Before onboarding, Shiv Naresh generated approximately ₹12K–₹15K/day from their own website, while significantly higher revenue came from marketplaces like Amazon and Flipkart. With rising return rates (~20%) and limited control over customer experience, the brand aimed to reduce platform dependency and build a direct-to-consumer (D2C) engine.'
+      },
+      {
+        heading: 'Objective',
+        text: 'Boost website-led revenue by repositioning the brand emotionally and functionally — transforming it from a functional sportswear provider into a symbol of athletic pride through strategic paid media and storytelling.'
+      },
+      {
+        heading: 'Strategic Phases',
+        text: 'Aug 2022 – May 2024'
+      },
+      {
+        heading: 'Phase 1: Context & Audience Mapping',
+        text: 'Challenge: Understand the emotional value behind purchases — is it affordability, quality, or pride?',
+        actions: [
+          'Conducted trendline research and brand keyword analysis via Google Trends',
+          'Identified Shiv Naresh as a pride-driven brand among Indian athletes and sports aspirants'
+        ],
+        result: 'Built a foundation to market the brand not just as a product, but as a badge of pride.'
+      },
+      {
+        heading: 'Phase 2: Timing-Based Sponsorship Activation',
+        text: 'Challenge: Drive mass visibility and brand recall at the right cultural moment.',
+        actions: [
+          'Partnered with Dabang Delhi as kit sponsor during Pro Kabaddi League (Oct 2022)',
+          'Ran supporting Google Ads campaigns aligned with search spikes during the league',
+          'Targeted kabaddi fans + local sports communities with contextual Display + YouTube ads'
+        ],
+        result: 'Brand visibility surged and drove a wave of branded searches and engagement on the website.'
+      },
+      {
+        heading: 'Phase 3: Digital Asset Campaign – “Pride in Performance”',
+        text: 'Challenge: Strengthen emotional connection and increase website trust.',
+        actions: [
+          'Produced a cinematic brand video featuring top Indian athletes across categories',
+          'Built the narrative around “Pride of Indian sportswear”',
+          'Invested 70% of media budget in video promotion across YouTube, Shorts, and Display'
+        ],
+        result: 'Drove deep engagement and brand lift, warming up audiences for conversion campaigns.'
+      },
+      {
+        heading: 'Phase 4: Conversion Campaigns & Funnel Optimization',
+        text: 'Challenge: Turn awareness into repeatable D2C sales.',
+        actions: [
+          'Launched Performance Max + branded Search campaigns to capture mid-funnel demand',
+          'Created bundled product sets and added urgency-based offers',
+          'Integrated Shopify audience tags for remarketing and upselling'
+        ],
+        result: 'Achieved 11x ROAS on branded campaigns and increased AOV by 18% through bundling.'
+      },
+      {
+        heading: 'Bonus Insight',
+        text: '“Sometimes your brand video isn’t just an awareness asset — it’s your best-performing pre-conversion driver. We primed the audience emotionally first, and then hit them with offer-based ads. The ROAS jump wasn’t a coincidence — it was sequencing.”'
+      },
+      {
+        heading: 'Outcome',
+        list: [
+          'Shifted focus from marketplaces to consistent website-led growth',
+          'Positioned Shiv Naresh as a premium Indian sportswear badge, not just an affordable alternative',
+          '70% media investment in video led to efficient conversions',
+          'Delivered 11x ROAS on branded terms + 18% increase in AOV',
+          'Used trend-driven timing (Kabaddi league) to unlock organic momentum'
+        ]
+      }
+    ]
+  }
 ];
 
+export default caseStudies;
