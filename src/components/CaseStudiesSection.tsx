@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { ChevronDown, TrendingUp, Calendar, Target, Award, Quote, UserCheck, CheckCircle } from 'lucide-react';
 
-// Updated Phase interface to include optional period
+// Interface remains the same, it's already correct.
 interface Phase {
   title: string;
-  period?: string; // Optional period for each phase
+  period?: string;
   challenge: string;
   actions: string[];
   result: string;
@@ -28,6 +28,7 @@ interface CaseStudy {
   personalRole?: string;
 }
 
+// Data remains the same.
 const caseStudies: CaseStudy[] = [
   {
     id: 'matrix-esim',
@@ -254,33 +255,42 @@ const CaseStudiesSection: React.FC = () => {
                             <div key={index} className="relative">
                               <div className={`absolute -left-[31px] top-1 w-4 h-4 rounded-full ${colors.bg}`}></div>
                               
-                              <div className="flex justify-between items-baseline mb-2">
+                              <div className="flex justify-between items-baseline mb-3">
                                 <h6 className={`font-bold text-lg ${colors.text}`}>{phase.title}</h6>
                                 {phase.period && (
                                     <span className="text-xs text-gray-500 font-mono">{phase.period}</span>
                                 )}
                               </div>
-
-                              <p className="text-sm text-gray-400 mb-3 italic">Challenge: {phase.challenge}</p>
-                              <ul className="space-y-2 mb-4">
-                                {phase.actions.map((action, i) => (
-                                  <li key={i} className="flex items-start space-x-3">
-                                    <div className={`w-1.5 h-1.5 ${colors.bg} rounded-full mt-[7px] flex-shrink-0`}></div>
-                                    <span className="text-gray-300">{action}</span>
-                                  </li>
-                                ))}
-                              </ul>
                               
-                              {/* --- NEW HIGHLIGHTED RESULT BLOCK --- */}
-                              <div className={`p-4 rounded-lg bg-gray-800/60 border ${colors.border}`}>
-                                <div className="flex items-start space-x-3">
-                                    <CheckCircle className={`w-5 h-5 flex-shrink-0 mt-0.5 ${colors.text}`} /> 
-                                    <div>
-                                        <h6 className={`text-sm font-semibold uppercase tracking-wider ${colors.text}`}>Result</h6>
-                                        <p className="text-gray-300 mt-1">{phase.result}</p>
-                                    </div>
+                              {/* --- CORRECTED AND RESTRUCTURED BLOCK --- */}
+                              <div className="space-y-4">
+                                <div>
+                                    <p className="font-semibold text-gray-300">Challenge</p>
+                                    <p className="text-gray-400 mt-1">{phase.challenge}</p>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-gray-300">Actions</p>
+                                    <ul className="space-y-1.5 mt-2">
+                                        {phase.actions.map((action, i) => (
+                                        <li key={i} className="flex items-start space-x-3">
+                                            <div className={`w-1.5 h-1.5 ${colors.bg} rounded-full mt-[7px] flex-shrink-0`}></div>
+                                            <span className="text-gray-300">{action}</span>
+                                        </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div className={`p-4 rounded-lg bg-gray-800/60 border ${colors.border}`}>
+                                  <div className="flex items-start space-x-3">
+                                      <CheckCircle className={`w-5 h-5 flex-shrink-0 mt-0.5 ${colors.text}`} /> 
+                                      <div>
+                                          <h6 className={`text-sm font-semibold uppercase tracking-wider ${colors.text}`}>Result</h6>
+                                          <p className="text-gray-300 mt-1">{phase.result}</p>
+                                      </div>
+                                  </div>
                                 </div>
                               </div>
+                              {/* --- END OF CORRECTION --- */}
+
                             </div>
                           )
                         })}
