@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { AnimatePresence, motion } from 'framer-motion'; // Framer Motion for smooth text transitions
-import { TrendingUp } from 'lucide-react';
+import React, { useState, useCallback } from 'react';
+import { TrendingUp, ArrowRight } from 'lucide-react';
 
+// A simpler, more focused interface for the screenshots
 interface ScreenshotItem {
   id: string;
-  image: string;
+  image: string; // The direct path to your screenshot
   title: string;
   description: string;
   result: {
@@ -13,6 +13,7 @@ interface ScreenshotItem {
   };
 }
 
+// Your 5 campaign screenshots will go here
 const screenshots: ScreenshotItem[] = [
   {
     id: 'shopping-sales-growth',
@@ -68,55 +69,22 @@ const screenshots: ScreenshotItem[] = [
 
 const PortfolioGallery: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [isFading, setIsFading] = useState(false);
 
-  // Debounce function to limit scroll event firing
-  const debounce = (func: Function, delay: number) => {
-    let timeoutId: NodeJS.Timeout;
-    return (...args: any) => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => func(...args), delay);
-    };
-  };
+  const handleSelect = useCallback((index: number) => {
+    if (index === activeIndex) return;
+    setIsFading(true);
+    setTimeout(() => {
+      setActiveIndex(index);
+      setIsFading(false);
+    }, 300); // Duration matches the fade-out transition
+  }, [activeIndex]);
   
-  // Logic to find which item is in the center of the viewport
-  const findCenterItem = useCallback(() => {
-    if (!scrollContainerRef.current) return;
-    const container = scrollContainerRef.current;
-    const containerCenter = container.scrollLeft + container.offsetWidth / 2;
-
-    let closestIndex = -1;
-    let smallestDistance = Infinity;
-
-    itemRefs.current.forEach((item, index) => {
-      if (item) {
-        const itemCenter = item.offsetLeft + item.offsetWidth / 2;
-        const distance = Math.abs(containerCenter - itemCenter);
-        if (distance < smallestDistance) {
-          smallestDistance = distance;
-          closestIndex = index;
-        }
-      }
-    });
-
-    if (closestIndex !== -1) {
-      setActiveIndex(closestIndex);
-    }
-  }, []);
-
-  const debouncedFindCenterItem = useCallback(debounce(findCenterItem, 50), [findCenterItem]);
-
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.addEventListener('scroll', debouncedFindCenterItem);
-      return () => container.removeEventListener('scroll', debouncedFindCenterItem);
-    }
-  }, [debouncedFindCenterItem]);
+  const activeScreenshot = screenshots[activeIndex];
 
   return (
     <section className="py-24 bg-black relative overflow-hidden">
+      {/* Background radial gradient for a futuristic feel */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] opacity-40"></div>
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -128,53 +96,60 @@ const PortfolioGallery: React.FC = () => {
             A transparent look into real campaign performance, dashboards, and the results they generated.
           </p>
         </div>
-      </div>
 
-      {/* The Scroll-Reel */}
-      <div 
-        ref={scrollContainerRef}
-        className="flex overflow-x-auto py-8 snap-x snap-mandatory scrollbar-hide"
-      >
-        <div className="flex-shrink-0 w-1/2 md:w-1/3 lg:w-1/4"></div> {/* Spacer */}
-        {screenshots.map((item, index) => (
-          <div
-            key={item.id}
-            ref={el => itemRefs.current[index] = el}
-            className="flex-shrink-0 w-11/12 md:w-3/5 lg:w-1/2 px-4 snap-center"
-          >
-            <div
-              className={`relative aspect-video w-full rounded-xl overflow-hidden transition-all duration-500 ease-out border-2
-                ${activeIndex === index ? 'border-blue-500/80 scale-100 opacity-100' : 'border-transparent scale-90 opacity-50'}`
-              }
-            >
-              <img src={item.image} alt={item.title} className="w-full h-full object-cover"/>
-              
-              {/* Highlighted Result Badge */}
-              <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm border border-white/10 rounded-lg p-2 md:p-3 text-right">
-                <p className="text-xs md:text-sm text-green-400">{item.result.label}</p>
-                <p className="text-lg md:text-xl font-bold text-white">{item.result.value}</p>
-              </div>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          {/* Main Screenshot Display */}
+          <div className="lg:col-span-9">
+            <div className="relative aspect-video w-full bg-gray-900/50 rounded-xl border border-white/10 overflow-hidden shadow-2xl shadow-black/50">
+                <img
+                  key={activeScreenshot.id} // Key change triggers re-render
+                  src={activeScreenshot.image}
+                  alt={activeScreenshot.title}
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ease-in-out ${
+                    isFading ? 'opacity-0' : 'opacity-100'
+                  }`}
+                />
             </div>
           </div>
-        ))}
-        <div className="flex-shrink-0 w-1/2 md:w-1/3 lg:w-1/4"></div> {/* Spacer */}
-      </div>
 
-      {/* Info Panel Below */}
-      <div className="container mx-auto px-4 md:px-6 mt-8">
-        <div className="max-w-3xl mx-auto text-center h-40">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3, ease: 'easeInOut' }}
-            >
-              <h3 className="text-2xl lg:text-3xl font-bold text-white">{screenshots[activeIndex].title}</h3>
-              <p className="text-gray-400 mt-2 leading-relaxed">{screenshots[activeIndex].description}</p>
-            </motion.div>
-          </AnimatePresence>
+          {/* Side Panel: Info & Thumbnails */}
+          <div className="lg:col-span-3 flex flex-col justify-between">
+            <div className="space-y-6">
+              {/* Highlighted Result */}
+              <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 transition-opacity duration-300 ease-in-out">
+                <p className="text-sm text-green-400 mb-1">{activeScreenshot.result.label}</p>
+                <p className="text-4xl font-bold text-white flex items-center gap-2">
+                  <TrendingUp className="w-8 h-8 text-green-400" />
+                  {activeScreenshot.result.value}
+                </p>
+              </div>
+
+              {/* Text Info */}
+              <div className="space-y-2 transition-opacity duration-300 ease-in-out">
+                <h3 className="text-2xl font-bold text-white">{activeScreenshot.title}</h3>
+                <p className="text-gray-400 leading-relaxed">{activeScreenshot.description}</p>
+              </div>
+            </div>
+
+            {/* Thumbnail "Filmstrip" */}
+            <div className="mt-8 lg:mt-0 flex lg:flex-col gap-3">
+              {screenshots.map((item, index) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleSelect(index)}
+                  className={`relative aspect-video lg:aspect-auto lg:h-20 w-full rounded-md overflow-hidden transition-all duration-300 border-2 ${
+                    activeIndex === index 
+                      ? 'border-blue-500 scale-105' 
+                      : 'border-transparent opacity-50 hover:opacity-100'
+                  }`}
+                >
+                  <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition-colors"></div>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
