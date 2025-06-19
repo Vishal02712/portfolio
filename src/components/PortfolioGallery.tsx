@@ -17,9 +17,9 @@ interface ScreenshotItem {
 const screenshots: ScreenshotItem[] = [
   {
     id: 'shopping-sales-growth',
-    image: 'https://placehold.co/1200x750/0a0a0a/FFF/png?text=Revenue+Growth+Dashboard',
+    image: 'https://ik.imagekit.io/6l4nizcn3/last-6-months_results.png?updatedAt=1750318701570',
     title: 'Shopping Sales Breakout',
-    description: 'chieved 10.8K+ purchases over six months by systematically scaling Shopping campaigns through optimized bidding, product segmentation, and competitive feed structuring — while maintaining high conversion efficiency and measurable ROAS uplift.',
+    description: 'Achieved 10.8K+ purchases over six months by systematically scaling Shopping campaigns through optimized bidding, product segmentation, and competitive feed structuring — while maintaining high conversion efficiency and measurable ROAS uplift.',
     result: {
       value: '10.8K orders',
       label: 'Total Purchases',
