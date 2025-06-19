@@ -17,7 +17,7 @@ interface ScreenshotItem {
 const screenshots: ScreenshotItem[] = [
   {
     id: 'shopping-sales-growth',
-    image: 'https://ik.imagekit.io/6l4nizcn3/last-6-months_results.png?updatedAt=1750318701570',
+    image: 'https://ik.imagekit.io/6l4nizcn3/1.png?updatedAt=1750319684548',
     title: 'Shopping Sales Breakout',
     description: 'Achieved 10.8K+ purchases over six months by systematically scaling Shopping campaigns through optimized bidding, product segmentation, and competitive feed structuring — while maintaining high conversion efficiency and measurable ROAS uplift.',
     result: {
@@ -26,13 +26,13 @@ const screenshots: ScreenshotItem[] = [
     },
   },
   {
-    id: 'matrix-roas',
-    image: 'https://placehold.co/1200x750/1a1a1a/FFF/png?text=Google+Ads+ROAS',
-    title: 'Sustained 4.2x ROAS',
-    description: 'Google Ads campaign view demonstrating a consistent 4.2x Return On Ad Spend across multiple high-budget campaigns, ensuring profitable scaling.',
+    id: 'pmax-audience-efficiency',
+    image: 'https://ik.imagekit.io/6l4nizcn3/2.png?updatedAt=1750319684448',
+    title: 'PMax Audience Expansion Win',
+    description: 'Generated ₹3.09M in Shopping revenue at 2.12x ROAS by deploying Performance Max to acquire new and affinity-based audiences. Balanced aggressive CPC strategy (₹21.54 avg.) with high intent targeting to scale cost-efficiently.',
     result: {
-      value: '4.2x',
-      label: 'Return On Ad Spend',
+      value: '₹3.09M',
+      label: 'Shopping Revenue',
     },
   },
   {
