@@ -17,7 +17,7 @@ interface ScreenshotItem {
 const screenshots: ScreenshotItem[] = [
   {
     id: 'shopping-sales-growth',
-    image: 'https://ik.imagekit.io/6l4nizcn3/1.png?updatedAt=1750319684548',
+    image: 'https://ik.imagekit.io/6l4nizcn3/Untitled%20design.png?updatedAt=1750321791689',
     title: 'Shopping Sales Breakout',
     description: 'Achieved 10.8K+ purchases over six months by systematically scaling Shopping campaigns through optimized bidding, product segmentation, and competitive feed structuring — while maintaining high conversion efficiency and measurable ROAS uplift.',
     result: {
