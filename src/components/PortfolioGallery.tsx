@@ -27,7 +27,7 @@ const screenshots: ScreenshotItem[] = [
   },
   {
     id: 'pmax-audience-efficiency',
-    image: 'https://ik.imagekit.io/6l4nizcn3/2.png?updatedAt=1750319684448',
+    image: 'https://ik.imagekit.io/6l4nizcn3/1.png?updatedAt=1750321927752',
     title: 'PMax Audience Expansion Win',
     description: 'Generated ₹3.09M in Shopping revenue at 2.12x ROAS by deploying Performance Max to acquire new and affinity-based audiences. Balanced aggressive CPC strategy (₹21.54 avg.) with high intent targeting to scale cost-efficiently.',
     result: {
@@ -36,33 +36,23 @@ const screenshots: ScreenshotItem[] = [
     },
   },
   {
-    id: 'shiv-naresh-cpa',
-    image: 'https://placehold.co/1200x750/0f0f0f/FFF/png?text=Cost+Per+Acquisition',
-    title: 'Cost Per Acquisition Reduction',
-    description: 'Performance report highlighting a 60% reduction in Customer Acquisition Cost for Shiv Naresh, achieved by refining audience targeting and creative strategy.',
+    id: 'remarketing-efficiency',
+    image: 'https://ik.imagekit.io/6l4nizcn3/2.png?updatedAt=1750321927757',
+    title: 'High-ROAS Remarketing Push',
+    description: 'Drove 304 conversions at 2.67x ROAS with ₹248K spend by retargeting high-intent visitors using tailored Shopping creatives and segmented audience lists — achieving both volume and efficiency in the final stage of the funnel.',
     result: {
-      value: '-60%',
-      label: 'Acquisition Cost',
+      value: '2.67x',
+      label: 'ROAS from Remarketing',
     },
   },
   {
-    id: 'pmax-funnel',
-    image: 'https://placehold.co/1200x750/1f1f1f/FFF/png?text=Performance+Max+Funnel',
-    title: 'Performance Max Optimization',
-    description: 'A look inside a Performance Max campaign structure, focusing on asset group optimization and signal targeting that led to a 35% increase in conversion rate.',
+    id: 'brand-video-roas',
+    image: 'https://ik.imagekit.io/6l4nizcn3/3.png?updatedAt=1750321927455',
+    title: '3.94x ROAS Post Brand Video',
+    description: 'elivered 3.94x ROAS following a brand video launch that significantly improved emotional resonance and recall. Campaign scaled to ₹4.82M revenue on ₹1.22M spend, driven by elevated brand search and high-converting branded traffic.',
     result: {
-      value: '+35%',
-      label: 'Conversion Rate',
-    },
-  },
-  {
-    id: 'esim-targeting',
-    image: 'https://placehold.co/1200x750/111111/FFF/png?text=eSIM-Specific+Targeting',
-    title: 'eSIM Niche Targeting',
-    description: 'GA4 audience builder screenshot showing the precise segmentation used to target eSIM-enabled device users, resulting in 78% of sales coming from this new product line.',
-    result: {
-      value: '78%',
-      label: 'Sales from eSIM',
+      value: '3.94x',
+      label: 'Branded ROAS',
     },
   },
 ];
