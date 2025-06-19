@@ -49,7 +49,7 @@ const screenshots: ScreenshotItem[] = [
     id: 'brand-video-roas',
     image: 'https://ik.imagekit.io/6l4nizcn3/3.png?updatedAt=1750321927455',
     title: '3.94x ROAS Post Brand Video',
-    description: 'elivered 3.94x ROAS following a brand video launch that significantly improved emotional resonance and recall. Campaign scaled to ₹4.82M revenue on ₹1.22M spend, driven by elevated brand search and high-converting branded traffic.',
+    description: 'Delivered 3.94x ROAS following a brand video launch that significantly improved emotional resonance and recall. Campaign scaled to ₹4.82M revenue on ₹1.22M spend, driven by elevated brand search and high-converting branded traffic.',
     result: {
       value: '3.94x',
       label: 'Branded ROAS',
