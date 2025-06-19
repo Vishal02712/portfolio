@@ -16,13 +16,13 @@ interface ScreenshotItem {
 // Your 5 campaign screenshots will go here
 const screenshots: ScreenshotItem[] = [
   {
-    id: 'matrix-rev-growth',
+    id: 'shopping-sales-growth',
     image: 'https://placehold.co/1200x750/0a0a0a/FFF/png?text=Revenue+Growth+Dashboard',
-    title: 'Daily Revenue Scaling',
-    description: 'Analytics dashboard tracking the explosive daily revenue growth from ₹2K to over ₹5 Lakhs, showcasing the direct impact of optimized ad spend.',
+    title: 'Shopping Sales Breakout',
+    description: 'chieved 10.8K+ purchases over six months by systematically scaling Shopping campaigns through optimized bidding, product segmentation, and competitive feed structuring — while maintaining high conversion efficiency and measurable ROAS uplift.',
     result: {
-      value: '+24,900%',
-      label: 'Revenue Growth',
+      value: '10.8K orders',
+      label: 'Total Purchases',
     },
   },
   {
