@@ -28,14 +28,14 @@ const testimonials: Testimonial[] = [
   },
   {
     name: 'Rahul Saxena',
-    role: 'Ex-Colleague',
-    company: 'Paid Ads Specialist',
+    role: 'Founder',
+    company: 'Alpha Beta Grammar',
     quote: 'One of the sharpest minds in digital performance. Vishal sees beyond metrics — he sees business impact. His strategies are both scalable and smart.',
     color: 'yellow'
   },
   {
-    name: 'Komal',
-    role: 'Junior Paid Media Analyst',
+    name: 'Divya',
+    role: 'Paid Media Analyst',
     company: 'digiDZN',
     quote: 'Working under Vishal’s leadership was a masterclass. I learned more in 6 months about performance marketing, GTM setups, and creative testing than in years of trial and error.',
     color: 'green'
